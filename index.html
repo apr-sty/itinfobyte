@@ -6,145 +6,744 @@
     <title>ITInfoByte - Essential Internet Tools</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        /* --- CSS VARIABLES & MODERN DESIGN TOKENS --- */
         :root {
-            --primary: #2563eb;       
-            --primary-hover: #1d4ed8;
-            --bg-dark: #0f172a;       
-            --bg-card: #1e293b;       
-            --text-main: #f8fafc;     
-            --text-muted: #94a3b8;    
-            --accent: #38bdf8;        
+            /* Primary Colors */
+            --primary: #3b82f6;       
+            --primary-hover: #2563eb;
+            --primary-light: rgba(59, 130, 246, 0.1);
+            
+            /* Backgrounds */
+            --bg-dark: #0a0e1a;
+            --bg-darker: #050810;       
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --bg-card-hover: rgba(30, 41, 59, 0.6);
+            
+            /* Glass Effects */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            
+            /* Text Colors */
+            --text-main: #f1f5f9;     
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            /* Accent Colors */
+            --accent: #06b6d4;
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
             --danger: #ef4444;
-            --success: #22c55e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --gradient-warm: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
         
         body {
-            background-color: var(--bg-dark);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-dark);
             color: var(--text-main);
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background Gradient */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10%, 10%); }
         }
 
         /* --- LAYOUT UTILITIES --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 var(--space-lg); 
+        }
+        
         .text-center { text-align: center; }
         .hidden { display: none !important; }
 
-        /* --- HEADER --- */
-        header { padding: 20px 0; border-bottom: 1px solid #334155; }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; }
-        .logo span { color: var(--primary); }
-
-        /* --- HERO SECTION --- */
-        .hero { padding: 60px 0 40px; text-align: center; }
-        .hero h1 { font-size: 3rem; margin-bottom: 15px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; }
-
-        /* --- SEARCH BAR --- */
-        .search-container { max-width: 600px; margin: 0 auto 60px; position: relative; }
-        .search-input {
-            width: 100%; padding: 15px 25px; border-radius: 50px;
-            border: 2px solid #334155; background: var(--bg-card);
-            color: white; font-size: 1.1rem; outline: none; transition: 0.3s;
+        /* --- HEADER WITH GLASS EFFECT --- */
+        header { 
+            padding: var(--space-lg) 0; 
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); }
+        
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .logo { 
+            font-size: 1.75rem; 
+            font-weight: 800; 
+            color: var(--text-main); 
+            text-decoration: none; 
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+        
+        .logo span { 
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .version-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            backdrop-filter: blur(10px);
+        }
 
-        /* --- APP GRID --- */
+        /* --- HERO SECTION WITH GRADIENT --- */
+        .hero { 
+            padding: var(--space-xl) 0 var(--space-lg); 
+            text-align: center; 
+        }
+        
+        .hero h1 { 
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: var(--space-md); 
+            font-weight: 900;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero p { 
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted); 
+            margin-bottom: var(--space-xl);
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- MODERN SEARCH BAR --- */
+        .search-container { 
+            max-width: 600px; 
+            margin: 0 auto var(--space-xl); 
+            position: relative;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        
+        .search-input {
+            width: 100%; 
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            border-radius: 50px;
+            border: 2px solid var(--glass-border); 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-main); 
+            font-size: 1rem; 
+            outline: none; 
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-input:focus { 
+            border-color: var(--primary); 
+            box-shadow: var(--shadow-glow);
+            background: var(--bg-card);
+        }
+        
+        .search-container::before {
+            content: "🔍";
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.25rem;
+            pointer-events: none;
+        }
+
+        /* --- GLASSMORPHIC APP GRID --- */
         .app-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px; padding-bottom: 80px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-md); 
+            padding-bottom: var(--space-xl);
         }
         
         .app-card {
-            background: var(--bg-card); border: 1px solid #334155; border-radius: 12px;
-            padding: 25px; transition: transform 0.2s, border-color 0.2s;
-            text-decoration: none; color: inherit; display: flex;
-            flex-direction: column; align-items: flex-start; cursor: pointer;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: var(--space-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none; 
+            color: inherit; 
+            display: flex;
+            flex-direction: column; 
+            align-items: flex-start; 
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
         }
         
-        .app-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-
-        .icon-box {
-            width: 50px; height: 50px; background: rgba(37, 99, 235, 0.1);
-            border-radius: 10px; display: flex; align-items: center;
-            justify-content: center; margin-bottom: 20px;
-            color: var(--accent); font-size: 1.5rem; font-weight: bold;
+        .app-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            background: var(--bg-card-hover);
+        }
+        
+        .app-card:hover::before {
+            transform: scaleX(1);
         }
 
-        .app-card h3 { font-size: 1.25rem; margin-bottom: 10px; }
-        .app-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
-        .tag { display: inline-block; margin-top: auto; padding-top: 15px; font-size: 0.8rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .icon-box {
+            width: 60px; 
+            height: 60px; 
+            background: var(--gradient-accent);
+            border-radius: 14px;
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
+            margin-bottom: var(--space-md);
+            font-size: 1.75rem; 
+            font-weight: bold;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .app-card:hover .icon-box {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
 
-        /* --- MODAL SYSTEM --- */
+        .app-card h3 { 
+            font-size: 1.25rem; 
+            margin-bottom: var(--space-xs); 
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        
+        .app-card p { 
+            font-size: 0.95rem; 
+            color: var(--text-muted); 
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        
+        .tag { 
+            display: inline-block; 
+            margin-top: var(--space-sm); 
+            padding: 0.35rem 0.85rem; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            background: var(--primary-light);
+            color: var(--accent); 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* --- MODERN MODAL SYSTEM --- */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); z-index: 1000;
-            display: flex; justify-content: center; align-items: center;
-            backdrop-filter: blur(5px);
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85); 
+            z-index: 1000;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
-            background: var(--bg-card); width: 90%; max-width: 700px;
-            border-radius: 15px; border: 1px solid #334155;
-            padding: 30px; position: relative; max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            width: 90%; 
+            max-width: 700px;
+            border-radius: 20px; 
+            border: 1px solid var(--glass-border);
+            padding: var(--space-xl); 
+            position: relative; 
+            max-height: 90vh; 
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Custom Scrollbar */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--bg-darker);
+            border-radius: 10px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
         }
 
         .close-btn {
-            position: absolute; top: 15px; right: 20px; font-size: 1.5rem;
-            cursor: pointer; color: var(--text-muted); transition: 0.2s;
+            position: absolute; 
+            top: var(--space-md); 
+            right: var(--space-md); 
+            font-size: 1.75rem;
+            cursor: pointer; 
+            color: var(--text-muted); 
+            transition: all 0.2s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--glass-bg);
         }
-        .close-btn:hover { color: #fff; }
+        
+        .close-btn:hover { 
+            color: var(--text-main);
+            background: var(--danger);
+            transform: rotate(90deg);
+        }
 
-        /* --- TOOL UI ELEMENTS --- */
-        .tool-header { margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        /* --- MODERN TOOL UI ELEMENTS --- */
+        .tool-header { 
+            margin-bottom: var(--space-md); 
+            border-bottom: 2px solid var(--glass-border); 
+            padding-bottom: var(--space-sm); 
+        }
+        
+        .tool-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
         .btn {
-            padding: 10px 20px; background: var(--primary); color: white;
-            border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;
-            transition: 0.2s; display: inline-block;
+            padding: 0.75rem 1.5rem; 
+            background: var(--gradient-accent);
+            color: white;
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
-        .btn:hover { background: var(--primary-hover); }
-        .btn-outline { background: transparent; border: 1px solid var(--primary); margin-left: 10px; }
-        .btn-outline:hover { background: rgba(37, 99, 235, 0.1); }
-        .btn-danger { background: var(--danger); margin-left: 10px; }
         
-        input[type="text"], input[type="number"], input[type="date"], textarea, select {
-            width: 100%; padding: 12px; margin: 10px 0;
-            background: #0f172a; border: 1px solid #334155;
-            color: white; border-radius: 6px; font-size: 1rem;
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
         
-        textarea { min-height: 150px; font-family: monospace; }
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-outline { 
+            background: transparent; 
+            border: 2px solid var(--primary); 
+            color: var(--primary);
+            margin-left: var(--space-xs); 
+        }
+        
+        .btn-outline:hover { 
+            background: var(--primary-light);
+            border-color: var(--primary-hover);
+        }
+        
+        .btn-danger { 
+            background: var(--danger); 
+            margin-left: var(--space-xs); 
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        input[type="text"], 
+        input[type="number"], 
+        input[type="date"],
+        input[type="datetime-local"],
+        textarea, 
+        select {
+            width: 100%; 
+            padding: 0.875rem; 
+            margin: var(--space-xs) 0;
+            background: var(--glass-bg); 
+            border: 2px solid var(--glass-border);
+            color: var(--text-main); 
+            border-radius: 10px; 
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="datetime-local"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: var(--glass-bg);
+            outline: none;
+            margin: var(--space-sm) 0;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: var(--shadow-md);
+        }
+        
+        input[type="color"] {
+            width: 100%;
+            height: 60px;
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="color"]:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+        
+        textarea { 
+            min-height: 150px; 
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
         
         .result-box {
-            background: #0f172a; padding: 15px; border-radius: 6px;
-            border: 1px solid #334155; margin-top: 15px; word-break: break-all;
-            font-family: monospace; min-height: 50px; display: flex; align-items: center; justify-content: space-between;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px); 
+            padding: var(--space-md); 
+            border-radius: 10px;
+            border: 2px solid var(--glass-border); 
+            margin-top: var(--space-md); 
+            word-break: break-all;
+            font-family: 'Courier New', monospace; 
+            min-height: 50px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        
+        .result-box:hover {
+            border-color: var(--primary);
         }
 
-        .checkbox-group { display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
-        .checkbox-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
-
-        /* Tool Specifics */
-        #qr-output img { margin: 20px auto; border: 5px solid white; border-radius: 4px; }
-        .spinner { border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .checkbox-group { 
+            display: flex; 
+            gap: var(--space-md); 
+            margin: var(--space-md) 0; 
+            flex-wrap: wrap; 
+        }
         
-        /* Stopwatch style */
-        .timer-display { font-size: 4rem; font-weight: bold; text-align: center; font-family: monospace; letter-spacing: 5px; margin: 20px 0; color: var(--accent); }
+        .checkbox-group label { 
+            display: flex; 
+            align-items: center; 
+            gap: var(--space-xs); 
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-group label:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+        }
+        
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Tool Specific Styles */
+        #qr-output { 
+            margin-top: var(--space-md);
+        }
+        
+        #qr-output img { 
+            margin: var(--space-md) auto; 
+            border: 5px solid white; 
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .spinner { 
+            border: 4px solid rgba(255,255,255,0.1); 
+            border-top: 4px solid var(--primary); 
+            border-radius: 50%; 
+            width: 40px; 
+            height: 40px; 
+            animation: spin 1s linear infinite; 
+            margin: var(--space-md) auto; 
+        }
+        
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        /* Stopwatch Display */
+        .timer-display { 
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900; 
+            text-align: center; 
+            font-family: 'Courier New', monospace; 
+            letter-spacing: 8px; 
+            margin: var(--space-lg) 0; 
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
 
         /* Color Picker */
-        .color-preview { width: 100%; height: 100px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 20px; }
+        .color-preview { 
+            width: 100%; 
+            height: 120px; 
+            border-radius: 12px; 
+            border: 2px solid var(--glass-border); 
+            margin-bottom: var(--space-md);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .color-preview:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
 
         /* --- FOOTER --- */
-        footer { border-top: 1px solid #334155; padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        footer { 
+            border-top: 1px solid var(--glass-border); 
+            padding: var(--space-xl) 0; 
+            text-align: center; 
+            color: var(--text-muted); 
+            font-size: 0.9rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+        }
         
+        footer p {
+            margin-bottom: var(--space-xs);
+        }
+        
+        .footer-link {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary);
+        }
+        
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .container { padding: 0 15px; }
+            .hero h1 { 
+                font-size: 2.2rem; 
+            }
+            
+            .container { 
+                padding: 0 var(--space-sm); 
+            }
+            
+            .app-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+            
+            .modal-content {
+                padding: var(--space-md);
+                width: 95%;
+            }
+            
+            .checkbox-group {
+                flex-direction: column;
+            }
+            
+            .timer-display {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .color-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* --- ACCESSIBILITY --- */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -154,7 +753,7 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo">IT<span>Info</span>Byte</a>
-                <div style="font-size: 0.9rem; color: var(--text-muted);">v2.0</div>
+                <div class="version-badge">v2.0 Pro</div>
             </nav>
         </div>
     </header>
@@ -248,20 +847,21 @@
     <div id="modalOverlay" class="modal-overlay hidden" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeModal(null)">&times;</span>
-            <div id="modalBody">
-                </div>
+            <div id="modalBody"></div>
         </div>
     </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 ITInfoByte.com. All tools run client-side.</p>
+            <p>&copy; 2025 <span class="footer-link">ITInfoByte.com</span>. All tools run client-side.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">Built with modern web technologies ✨</p>
         </div>
     </footer>
 
+    <!-- TEMPLATES -->
     <template id="password-tool-tpl">
-        <div class="tool-header"><h2>Secure Password Generator</h2></div>
-        <label>Length: <span id="pass-len-val">16</span></label>
+        <div class="tool-header"><h2>🔑 Secure Password Generator</h2></div>
+        <label style="font-weight: 600; color: var(--text-muted);">Length: <span id="pass-len-val" style="color: var(--accent); font-weight: 700;">16</span></label>
         <input type="range" id="pass-len" min="4" max="64" value="16" oninput="document.getElementById('pass-len-val').innerText = this.value">
         <div class="checkbox-group">
             <label><input type="checkbox" id="inc-upper" checked> Uppercase</label>
@@ -269,54 +869,54 @@
             <label><input type="checkbox" id="inc-num" checked> Numbers</label>
             <label><input type="checkbox" id="inc-sym" checked> Symbols</label>
         </div>
-        <button class="btn" onclick="generatePassword()">Generate New</button>
+        <button class="btn" onclick="generatePassword()">🎲 Generate New</button>
         <div class="result-box">
-            <span id="pass-result" style="color: var(--accent);">...</span>
-            <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="copyToClipboard('pass-result')">Copy</button>
+            <span id="pass-result" style="color: var(--accent); font-weight: 600;">Click generate...</span>
+            <button class="btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="copyToClipboard('pass-result')">📋 Copy</button>
         </div>
     </template>
 
     <template id="json-tool-tpl">
-        <div class="tool-header"><h2>JSON Formatter & Validator</h2></div>
-        <textarea id="json-input" placeholder="Paste dirty JSON here..."></textarea>
-        <div>
-            <button class="btn" onclick="processJSON(true)">Beautify</button>
-            <button class="btn btn-outline" onclick="processJSON(false)">Minify</button>
+        <div class="tool-header"><h2>{} JSON Formatter</h2></div>
+        <textarea id="json-input" placeholder='Paste dirty JSON here... e.g. {"name":"John","age":30}'></textarea>
+        <div style="margin-top: var(--space-sm);">
+            <button class="btn" onclick="processJSON(true)">✨ Beautify</button>
+            <button class="btn-outline" onclick="processJSON(false)">🗜️ Minify</button>
         </div>
-        <textarea id="json-output" placeholder="Result will appear here..." readonly></textarea>
+        <textarea id="json-output" placeholder="Result will appear here..." readonly style="margin-top: var(--space-md);"></textarea>
     </template>
 
     <template id="ip-tool-tpl">
-        <div class="tool-header"><h2>IP Address Lookup</h2></div>
-        <p style="margin-bottom: 15px;">Click below to fetch your public network details.</p>
-        <button class="btn" onclick="fetchIP()">Fetch My IP Info</button>
-        <div id="ip-result" style="margin-top: 20px;"></div>
+        <div class="tool-header"><h2>🌐 IP Address Lookup</h2></div>
+        <p style="margin-bottom: var(--space-md); color: var(--text-muted);">Click below to fetch your public network details.</p>
+        <button class="btn" onclick="fetchIP()">🔍 Fetch My IP Info</button>
+        <div id="ip-result" style="margin-top: var(--space-md);"></div>
     </template>
 
     <template id="base64-tool-tpl">
-        <div class="tool-header"><h2>Base64 Encoder/Decoder</h2></div>
+        <div class="tool-header"><h2>64 Base64 Encoder/Decoder</h2></div>
         <textarea id="b64-input" placeholder="Type text here..."></textarea>
-        <div style="margin-bottom: 15px;">
-            <button class="btn" onclick="base64Process('encode')">Encode</button>
-            <button class="btn btn-outline" onclick="base64Process('decode')">Decode</button>
+        <div style="margin-bottom: var(--space-md); margin-top: var(--space-sm);">
+            <button class="btn" onclick="base64Process('encode')">🔒 Encode</button>
+            <button class="btn-outline" onclick="base64Process('decode')">🔓 Decode</button>
         </div>
         <div class="result-box">
             <span id="b64-result" style="word-break: break-all;">Result...</span>
-            <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="copyToClipboard('b64-result')">Copy</button>
+            <button class="btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="copyToClipboard('b64-result')">📋 Copy</button>
         </div>
     </template>
 
     <template id="qr-tool-tpl">
-        <div class="tool-header"><h2>QR Code Generator</h2></div>
+        <div class="tool-header"><h2>📱 QR Code Generator</h2></div>
         <input type="text" id="qr-text" placeholder="Enter URL or Text (e.g., https://google.com)">
-        <button class="btn" onclick="generateQR()">Generate QR</button>
-        <div id="qr-output" class="text-center" style="margin-top: 20px;"></div>
+        <button class="btn" onclick="generateQR()" style="margin-top: var(--space-sm);">🎨 Generate QR</button>
+        <div id="qr-output" class="text-center" style="margin-top: var(--space-md);"></div>
     </template>
 
     <template id="dns-tool-tpl">
-        <div class="tool-header"><h2>DNS Record Lookup</h2></div>
-        <div style="display: flex; gap: 10px;">
-            <input type="text" id="dns-domain" placeholder="example.com">
+        <div class="tool-header"><h2>📡 DNS Record Lookup</h2></div>
+        <div style="display: flex; gap: var(--space-xs); flex-wrap: wrap;">
+            <input type="text" id="dns-domain" placeholder="example.com" style="flex: 1; min-width: 200px;">
             <select id="dns-type" style="width: 120px;">
                 <option value="A">A</option>
                 <option value="AAAA">AAAA</option>
@@ -325,71 +925,71 @@
                 <option value="TXT">TXT</option>
             </select>
         </div>
-        <button class="btn" onclick="lookupDNS()">Lookup Records</button>
-        <div id="dns-result" style="margin-top: 20px; white-space: pre-wrap; font-family: monospace; background: #0f172a; padding: 10px; border-radius: 6px;"></div>
+        <button class="btn" onclick="lookupDNS()" style="margin-top: var(--space-sm);">🔍 Lookup Records</button>
+        <div id="dns-result" style="margin-top: var(--space-md); white-space: pre-wrap; font-family: 'Courier New', monospace; background: var(--glass-bg); padding: var(--space-md); border-radius: 10px; border: 2px solid var(--glass-border);"></div>
     </template>
 
     <template id="unix-tool-tpl">
-        <div class="tool-header"><h2>Unix Timestamp Converter</h2></div>
-        <p>Current Time: <span id="unix-current" style="color: var(--accent);"></span></p>
-        <hr style="border-color: #334155; margin: 15px 0;">
+        <div class="tool-header"><h2>🕒 Unix Timestamp Converter</h2></div>
+        <p style="color: var(--text-muted);">Current Time: <span id="unix-current" style="color: var(--accent); font-weight: 700; font-family: monospace;"></span></p>
+        <hr style="border-color: var(--glass-border); margin: var(--space-md) 0;">
         
-        <label>Enter Timestamp (seconds):</label>
-        <div style="display: flex; gap: 10px;">
-            <input type="number" id="unix-input" placeholder="e.g. 1672531200">
-            <button class="btn" onclick="convertUnix('toHuman')">Convert</button>
+        <label style="font-weight: 600; color: var(--text-muted);">Enter Timestamp (seconds):</label>
+        <div style="display: flex; gap: var(--space-xs); margin-top: var(--space-xs);">
+            <input type="number" id="unix-input" placeholder="e.g. 1672531200" style="flex: 1;">
+            <button class="btn" onclick="convertUnix('toHuman')">➡️ Convert</button>
         </div>
         <div id="unix-human-result" class="result-box">Human date will appear here</div>
         
-        <hr style="border-color: #334155; margin: 15px 0;">
+        <hr style="border-color: var(--glass-border); margin: var(--space-md) 0;">
 
-        <label>Enter Date:</label>
-        <div style="display: flex; gap: 10px;">
-            <input type="datetime-local" id="unix-date-input">
-            <button class="btn" onclick="convertUnix('toEpoch')">Get Timestamp</button>
+        <label style="font-weight: 600; color: var(--text-muted);">Enter Date:</label>
+        <div style="display: flex; gap: var(--space-xs); margin-top: var(--space-xs);">
+            <input type="datetime-local" id="unix-date-input" style="flex: 1;">
+            <button class="btn" onclick="convertUnix('toEpoch')">⬅️ Get Timestamp</button>
         </div>
         <div id="unix-epoch-result" class="result-box">Timestamp will appear here</div>
     </template>
 
     <template id="url-tool-tpl">
-        <div class="tool-header"><h2>URL Encoder / Decoder</h2></div>
+        <div class="tool-header"><h2>🔗 URL Encoder / Decoder</h2></div>
         <textarea id="url-input" placeholder="Paste URL here (e.g. https://example.com/search?q=hello world)"></textarea>
-        <div>
-            <button class="btn" onclick="processURL('encode')">Encode</button>
-            <button class="btn btn-outline" onclick="processURL('decode')">Decode</button>
+        <div style="margin-top: var(--space-sm);">
+            <button class="btn" onclick="processURL('encode')">🔒 Encode</button>
+            <button class="btn-outline" onclick="processURL('decode')">🔓 Decode</button>
         </div>
-        <div class="result-box">
+        <div class="result-box" style="margin-top: var(--space-md);">
             <span id="url-result" style="word-break: break-all;">Result...</span>
-            <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="copyToClipboard('url-result')">Copy</button>
+            <button class="btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="copyToClipboard('url-result')">📋 Copy</button>
         </div>
     </template>
 
     <template id="color-tool-tpl">
-        <div class="tool-header"><h2>Color Converter</h2></div>
-        <div id="color-preview-box" class="color-preview" style="background-color: #2563eb;"></div>
+        <div class="tool-header"><h2>🎨 Color Converter</h2></div>
+        <div id="color-preview-box" class="color-preview" style="background-color: #3b82f6;"></div>
         
-        <label>Pick Color:</label>
-        <input type="color" id="color-picker" value="#2563eb" oninput="updateColorFromPicker(this.value)" style="height: 50px; cursor: pointer;">
+        <label style="font-weight: 600; color: var(--text-muted);">Pick Color:</label>
+        <input type="color" id="color-picker" value="#3b82f6" oninput="updateColorFromPicker(this.value)">
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+        <div class="color-grid">
             <div>
-                <label>HEX</label>
-                <input type="text" id="color-hex" value="#2563eb" readonly>
+                <label style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">HEX</label>
+                <input type="text" id="color-hex" value="#3b82f6" readonly>
             </div>
             <div>
-                <label>RGB</label>
-                <input type="text" id="color-rgb" value="rgb(37, 99, 235)" readonly>
+                <label style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">RGB</label>
+                <input type="text" id="color-rgb" value="rgb(59, 130, 246)" readonly>
             </div>
         </div>
     </template>
 
     <template id="stopwatch-tool-tpl">
-        <div class="tool-header"><h2>Stopwatch</h2></div>
+        <div class="tool-header"><h2>⏱️ Stopwatch</h2></div>
         <div id="timer-display" class="timer-display">00:00:00</div>
         <div class="text-center">
-            <button class="btn" onclick="startTimer()">Start</button>
-            <button class="btn btn-danger" onclick="stopTimer()">Stop</button>
-            <button class="btn btn-outline" onclick="resetTimer()">Reset</button>
+            <button class="btn" onclick="startTimer()">▶️ Start</button>
+            <button class="btn btn-danger" onclick="stopTimer()">⏸️ Stop</button>
+            <button class="btn-outline" onclick="resetTimer()">🔄 Reset</button>
         </div>
     </template>
 
@@ -434,7 +1034,23 @@
         function copyToClipboard(elementId) {
             const text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert("Copied to clipboard!");
+                // Create temporary notification
+                const notification = document.createElement('div');
+                notification.textContent = '✓ Copied to clipboard!';
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--success);
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease;
+                `;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 2000);
             });
         }
 
@@ -458,7 +1074,7 @@
             if(sym) allChars += symChars;
             
             if(allChars === "") {
-                document.getElementById('pass-result').innerText = "Select at least one option!";
+                document.getElementById('pass-result').innerText = "⚠️ Select at least one option!";
                 return;
             }
 
@@ -476,8 +1092,11 @@
             try {
                 const obj = JSON.parse(input);
                 output.value = beautify ? JSON.stringify(obj, null, 4) : JSON.stringify(obj);
+                output.style.borderColor = 'var(--success)';
+                setTimeout(() => output.style.borderColor = 'var(--glass-border)', 1000);
             } catch (e) {
-                output.value = "Invalid JSON:\n" + e.message;
+                output.value = "❌ Invalid JSON:\n" + e.message;
+                output.style.borderColor = 'var(--danger)';
             }
         }
 
@@ -490,13 +1109,16 @@
                 .then(response => response.json())
                 .then(data => {
                     resultDiv.innerHTML = `
-                        <p><strong>IP:</strong> ${data.ip}</p>
-                        <p><strong>Location:</strong> ${data.city}, ${data.region}, ${data.country_name}</p>
-                        <p><strong>ISP:</strong> ${data.org}</p>
+                        <div style="background: var(--glass-bg); padding: var(--space-md); border-radius: 10px; border: 2px solid var(--glass-border);">
+                            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--accent);">IP Address:</strong> ${data.ip}</p>
+                            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--accent);">Location:</strong> ${data.city}, ${data.region}, ${data.country_name}</p>
+                            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--accent);">ISP:</strong> ${data.org}</p>
+                            <p><strong style="color: var(--accent);">Timezone:</strong> ${data.timezone}</p>
+                        </div>
                     `;
                 })
                 .catch(err => {
-                    resultDiv.innerHTML = '<p style="color:var(--danger)">Failed to fetch IP (Adblocker might be interfering). Try disabling extensions.</p>';
+                    resultDiv.innerHTML = '<p style="color:var(--danger); background: var(--glass-bg); padding: var(--space-md); border-radius: 10px; border: 2px solid var(--danger);">❌ Failed to fetch IP. Adblocker might be interfering. Try disabling extensions.</p>';
                 });
         }
 
@@ -507,7 +1129,7 @@
             try {
                 result.innerText = action === 'encode' ? btoa(input) : atob(input);
             } catch(e) {
-                result.innerText = "Error: Invalid input for decoding.";
+                result.innerText = "❌ Error: Invalid input for decoding.";
             }
         }
 
@@ -516,9 +1138,12 @@
             const text = document.getElementById('qr-text').value;
             const container = document.getElementById('qr-output');
             container.innerHTML = "";
-            if(text.trim() === "") return;
+            if(text.trim() === "") {
+                container.innerHTML = '<p style="color: var(--warning);">⚠️ Please enter text or URL</p>';
+                return;
+            }
             new QRCode(container, {
-                text: text, width: 128, height: 128,
+                text: text, width: 256, height: 256,
                 colorDark : "#000000", colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
             });
@@ -529,28 +1154,34 @@
             const domain = document.getElementById('dns-domain').value;
             const type = document.getElementById('dns-type').value;
             const resultDiv = document.getElementById('dns-result');
-            if(!domain) return;
-            resultDiv.innerHTML = "Querying Google DNS...";
+            if(!domain) {
+                resultDiv.innerHTML = "⚠️ Please enter a domain name";
+                return;
+            }
+            resultDiv.innerHTML = "🔍 Querying Google DNS...";
             
             fetch(`https://dns.google/resolve?name=${domain}&type=${type}`)
                 .then(res => res.json())
                 .then(data => {
                     if(data.Answer) {
-                        let output = "";
+                        let output = "✅ DNS Records Found:\n\n";
                         data.Answer.forEach(record => {
-                            output += `${record.name} \t ${record.data}\n`;
+                            output += `${record.name}\n➜ ${record.data}\n\n`;
                         });
                         resultDiv.innerText = output;
+                        resultDiv.style.borderColor = 'var(--success)';
                     } else {
-                        resultDiv.innerText = "No records found or invalid domain.";
+                        resultDiv.innerText = "❌ No records found or invalid domain.";
+                        resultDiv.style.borderColor = 'var(--danger)';
                     }
                 })
                 .catch(err => {
-                    resultDiv.innerText = "Error fetching DNS data.";
+                    resultDiv.innerText = "❌ Error fetching DNS data.";
+                    resultDiv.style.borderColor = 'var(--danger)';
                 });
         }
 
-        // --- UNIX TIMESTAMP TOOL (NEW) ---
+        // --- UNIX TIMESTAMP TOOL ---
         function initUnixTool() {
             setInterval(() => {
                 const el = document.getElementById('unix-current');
@@ -563,27 +1194,32 @@
                 const ts = document.getElementById('unix-input').value;
                 if(!ts) return;
                 const date = new Date(ts * 1000);
-                document.getElementById('unix-human-result').innerText = date.toUTCString() + "\n" + date.toLocaleString();
+                document.getElementById('unix-human-result').innerHTML = `
+                    <div>
+                        <strong style="color: var(--accent);">UTC:</strong> ${date.toUTCString()}<br>
+                        <strong style="color: var(--accent);">Local:</strong> ${date.toLocaleString()}
+                    </div>
+                `;
             } else {
                 const dateVal = document.getElementById('unix-date-input').value;
                 if(!dateVal) return;
                 const ts = Math.floor(new Date(dateVal).getTime() / 1000);
-                document.getElementById('unix-epoch-result').innerText = ts;
+                document.getElementById('unix-epoch-result').innerHTML = `<strong style="color: var(--accent); font-size: 1.2rem;">${ts}</strong>`;
             }
         }
 
-        // --- URL ENCODE/DECODE (NEW) ---
+        // --- URL ENCODE/DECODE ---
         function processURL(action) {
             const input = document.getElementById('url-input').value;
             const result = document.getElementById('url-result');
             try {
                 result.innerText = action === 'encode' ? encodeURIComponent(input) : decodeURIComponent(input);
             } catch (e) {
-                result.innerText = "Error decoding URL.";
+                result.innerText = "❌ Error decoding URL.";
             }
         }
 
-        // --- COLOR CONVERTER (NEW) ---
+        // --- COLOR CONVERTER ---
         function updateColorFromPicker(hex) {
             document.getElementById('color-preview-box').style.backgroundColor = hex;
             document.getElementById('color-hex').value = hex;
@@ -595,7 +1231,7 @@
             document.getElementById('color-rgb').value = `rgb(${r}, ${g}, ${b})`;
         }
 
-        // --- STOPWATCH (NEW) ---
+        // --- STOPWATCH ---
         let timerInterval;
         let timerSeconds = 0;
         let timerRunning = false;
@@ -634,6 +1270,21 @@
                 (secs < 10 ? "0" + secs : secs);
         }
 
+        // Add slide in animation for notification
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
