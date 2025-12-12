@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITInfoByte - Essential Internet Tools</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
-            --primary: #2563eb;       /* Tech Blue */
+            --primary: #2563eb;       
             --primary-hover: #1d4ed8;
-            --bg-dark: #0f172a;       /* Dark Slate */
-            --bg-card: #1e293b;       /* Lighter Slate */
-            --text-main: #f8fafc;     /* White/Grey */
-            --text-muted: #94a3b8;    /* Muted Grey */
-            --accent: #38bdf8;        /* Cyan accent */
+            --bg-dark: #0f172a;       
+            --bg-card: #1e293b;       
+            --text-main: #f8fafc;     
+            --text-muted: #94a3b8;    
+            --accent: #38bdf8;        
+            --danger: #ef4444;
+            --success: #22c55e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -27,6 +30,7 @@
         /* --- LAYOUT UTILITIES --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .text-center { text-align: center; }
+        .hidden { display: none !important; }
 
         /* --- HEADER --- */
         header { padding: 20px 0; border-bottom: 1px solid #334155; }
@@ -35,94 +39,102 @@
         .logo span { color: var(--primary); }
 
         /* --- HERO SECTION --- */
-        .hero {
-            padding: 80px 0 60px;
-            text-align: center;
-        }
+        .hero { padding: 60px 0 40px; text-align: center; }
         .hero h1 { font-size: 3rem; margin-bottom: 15px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; }
 
         /* --- SEARCH BAR --- */
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto 60px;
-            position: relative;
-        }
+        .search-container { max-width: 600px; margin: 0 auto 60px; position: relative; }
         .search-input {
-            width: 100%;
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: 2px solid #334155;
-            background: var(--bg-card);
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-            transition: 0.3s;
+            width: 100%; padding: 15px 25px; border-radius: 50px;
+            border: 2px solid #334155; background: var(--bg-card);
+            color: white; font-size: 1.1rem; outline: none; transition: 0.3s;
         }
         .search-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); }
 
         /* --- APP GRID --- */
         .app-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            padding-bottom: 80px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px; padding-bottom: 80px;
         }
         
         .app-card {
-            background: var(--bg-card);
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 25px;
-            transition: transform 0.2s, border-color 0.2s;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            background: var(--bg-card); border: 1px solid #334155; border-radius: 12px;
+            padding: 25px; transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none; color: inherit; display: flex;
+            flex-direction: column; align-items: flex-start; cursor: pointer;
         }
         
-        .app-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
+        .app-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
         .icon-box {
-            width: 50px; height: 50px;
-            background: rgba(37, 99, 235, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: var(--accent);
-            font-size: 1.5rem;
-            font-weight: bold;
+            width: 50px; height: 50px; background: rgba(37, 99, 235, 0.1);
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 20px;
+            color: var(--accent); font-size: 1.5rem; font-weight: bold;
         }
 
         .app-card h3 { font-size: 1.25rem; margin-bottom: 10px; }
         .app-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
-        .tag { 
-            display: inline-block; 
-            margin-top: auto; 
-            padding-top: 15px; 
-            font-size: 0.8rem; 
-            font-weight: 600; 
-            color: var(--primary); 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
+        .tag { display: inline-block; margin-top: auto; padding-top: 15px; font-size: 0.8rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- MODAL SYSTEM --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
         }
+
+        .modal-content {
+            background: var(--bg-card); width: 90%; max-width: 700px;
+            border-radius: 15px; border: 1px solid #334155;
+            padding: 30px; position: relative; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .close-btn {
+            position: absolute; top: 15px; right: 20px; font-size: 1.5rem;
+            cursor: pointer; color: var(--text-muted); transition: 0.2s;
+        }
+        .close-btn:hover { color: #fff; }
+
+        /* --- TOOL UI ELEMENTS --- */
+        .tool-header { margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .btn {
+            padding: 10px 20px; background: var(--primary); color: white;
+            border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;
+            transition: 0.2s; display: inline-block;
+        }
+        .btn:hover { background: var(--primary-hover); }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); margin-left: 10px; }
+        .btn-outline:hover { background: rgba(37, 99, 235, 0.1); }
+        
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%; padding: 12px; margin: 10px 0;
+            background: #0f172a; border: 1px solid #334155;
+            color: white; border-radius: 6px; font-size: 1rem;
+        }
+        
+        textarea { min-height: 150px; font-family: monospace; }
+        
+        .result-box {
+            background: #0f172a; padding: 15px; border-radius: 6px;
+            border: 1px solid #334155; margin-top: 15px; word-break: break-all;
+            font-family: monospace; min-height: 50px; display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .checkbox-group { display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+        .checkbox-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+
+        /* Tool Specifics */
+        #qr-output img { margin: 20px auto; border: 5px solid white; border-radius: 4px; }
+        .spinner { border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* --- FOOTER --- */
-        footer {
-            border-top: 1px solid #334155;
-            padding: 40px 0;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* --- RESPONSIVE --- */
+        footer { border-top: 1px solid #334155; padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.2rem; }
             .container { padding: 0 15px; }
@@ -148,77 +160,310 @@
         </div>
 
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search tools (e.g., DNS, Password, Calc)..." onkeyup="filterApps()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search tools (e.g., DNS, Password, JSON)..." onkeyup="filterApps()">
         </div>
 
         <div class="app-grid" id="appGrid">
             
-            <a href="#" class="app-card" data-name="password generator security">
+            <div class="app-card" onclick="openModal('password-tool')" data-name="password generator security">
                 <div class="icon-box">🔑</div>
                 <h3>Secure Password Gen</h3>
-                <p>Generate strong, random passwords locally in your browser. Customizable length and characters.</p>
+                <p>Generate strong, random passwords. Customizable length and characters.</p>
                 <span class="tag">Security</span>
-            </a>
+            </div>
 
-            <a href="#" class="app-card" data-name="json formatter beautifier code">
+            <div class="app-card" onclick="openModal('json-tool')" data-name="json formatter beautifier code">
                 <div class="icon-box">{}</div>
                 <h3>JSON Formatter</h3>
-                <p>Validate, beautify, and minify your JSON code instantly to make it readable.</p>
+                <p>Validate, beautify, and minify your JSON code instantly.</p>
                 <span class="tag">Developer</span>
-            </a>
+            </div>
 
-            <a href="#" class="app-card" data-name="ip address lookup network whois">
+            <div class="app-card" onclick="openModal('ip-tool')" data-name="ip address lookup network whois">
                 <div class="icon-box">🌐</div>
                 <h3>My IP Info</h3>
-                <p>Check your public IP address, location data, and ISP details quickly.</p>
+                <p>Check your public IP address, location data, and ISP details.</p>
                 <span class="tag">Network</span>
-            </a>
+            </div>
 
-            <a href="#" class="app-card" data-name="base64 encode decode text">
+            <div class="app-card" onclick="openModal('base64-tool')" data-name="base64 encode decode text">
                 <div class="icon-box">64</div>
                 <h3>Base64 Converter</h3>
-                <p>Encode and decode text or images to Base64 strings easily.</p>
+                <p>Encode and decode text strings to Base64 format easily.</p>
                 <span class="tag">Utility</span>
-            </a>
+            </div>
 
-            <a href="#" class="app-card" data-name="qr code generator mobile link">
+            <div class="app-card" onclick="openModal('qr-tool')" data-name="qr code generator mobile link">
                 <div class="icon-box">📱</div>
                 <h3>QR Code Generator</h3>
                 <p>Create QR codes for URLs, WiFi access, or plain text instantly.</p>
                 <span class="tag">Mobile</span>
-            </a>
+            </div>
 
-            <a href="#" class="app-card" data-name="dns propagation checker">
+            <div class="app-card" onclick="openModal('dns-tool')" data-name="dns propagation checker">
                 <div class="icon-box">📡</div>
-                <h3>DNS Checker</h3>
-                <p>Verify DNS propagation across multiple global servers.</p>
+                <h3>DNS Lookup</h3>
+                <p>Query DNS records (A, MX, NS, TXT) using Google DNS API.</p>
                 <span class="tag">Network</span>
-            </a>
+            </div>
 
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay hidden" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal(null)">&times;</span>
+            <div id="modalBody">
+                </div>
         </div>
     </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 ITInfoByte.com. All rights reserved.</p>
+            <p>&copy; 2025 ITInfoByte.com. All tools run client-side.</p>
         </div>
     </footer>
 
+    <template id="password-tool-tpl">
+        <div class="tool-header"><h2>Secure Password Generator</h2></div>
+        <label>Length: <span id="pass-len-val">16</span></label>
+        <input type="range" id="pass-len" min="4" max="64" value="16" oninput="document.getElementById('pass-len-val').innerText = this.value">
+        <div class="checkbox-group">
+            <label><input type="checkbox" id="inc-upper" checked> Uppercase</label>
+            <label><input type="checkbox" id="inc-lower" checked> Lowercase</label>
+            <label><input type="checkbox" id="inc-num" checked> Numbers</label>
+            <label><input type="checkbox" id="inc-sym" checked> Symbols</label>
+        </div>
+        <button class="btn" onclick="generatePassword()">Generate New</button>
+        <div class="result-box">
+            <span id="pass-result" style="color: var(--accent);">...</span>
+            <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="copyToClipboard('pass-result')">Copy</button>
+        </div>
+    </template>
+
+    <template id="json-tool-tpl">
+        <div class="tool-header"><h2>JSON Formatter & Validator</h2></div>
+        <textarea id="json-input" placeholder="Paste dirty JSON here..."></textarea>
+        <div>
+            <button class="btn" onclick="processJSON(true)">Beautify</button>
+            <button class="btn btn-outline" onclick="processJSON(false)">Minify</button>
+        </div>
+        <textarea id="json-output" placeholder="Result will appear here..." readonly></textarea>
+    </template>
+
+    <template id="ip-tool-tpl">
+        <div class="tool-header"><h2>IP Address Lookup</h2></div>
+        <p style="margin-bottom: 15px;">Click below to fetch your public network details.</p>
+        <button class="btn" onclick="fetchIP()">Fetch My IP Info</button>
+        <div id="ip-result" style="margin-top: 20px;"></div>
+    </template>
+
+    <template id="base64-tool-tpl">
+        <div class="tool-header"><h2>Base64 Encoder/Decoder</h2></div>
+        <textarea id="b64-input" placeholder="Type text here..."></textarea>
+        <div style="margin-bottom: 15px;">
+            <button class="btn" onclick="base64Process('encode')">Encode</button>
+            <button class="btn btn-outline" onclick="base64Process('decode')">Decode</button>
+        </div>
+        <div class="result-box">
+            <span id="b64-result" style="word-break: break-all;">Result...</span>
+            <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="copyToClipboard('b64-result')">Copy</button>
+        </div>
+    </template>
+
+    <template id="qr-tool-tpl">
+        <div class="tool-header"><h2>QR Code Generator</h2></div>
+        <input type="text" id="qr-text" placeholder="Enter URL or Text (e.g., https://google.com)">
+        <button class="btn" onclick="generateQR()">Generate QR</button>
+        <div id="qr-output" class="text-center" style="margin-top: 20px;"></div>
+    </template>
+
+    <template id="dns-tool-tpl">
+        <div class="tool-header"><h2>DNS Record Lookup</h2></div>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="dns-domain" placeholder="example.com">
+            <select id="dns-type" style="width: 120px;">
+                <option value="A">A</option>
+                <option value="AAAA">AAAA</option>
+                <option value="MX">MX</option>
+                <option value="NS">NS</option>
+                <option value="TXT">TXT</option>
+            </select>
+        </div>
+        <button class="btn" onclick="lookupDNS()">Lookup Records</button>
+        <div id="dns-result" style="margin-top: 20px; white-space: pre-wrap; font-family: monospace; background: #0f172a; padding: 10px; border-radius: 6px;"></div>
+    </template>
+
     <script>
+        // --- CORE NAVIGATION ---
         function filterApps() {
             let input = document.getElementById('searchInput');
             let filter = input.value.toUpperCase();
-            let grid = document.getElementById('appGrid');
-            let cards = grid.getElementsByClassName('app-card');
+            let cards = document.getElementsByClassName('app-card');
 
             for (let i = 0; i < cards.length; i++) {
                 let dataName = cards[i].getAttribute('data-name');
                 if (dataName.toUpperCase().indexOf(filter) > -1) {
-                    cards[i].style.display = "";
+                    cards[i].style.display = "flex";
                 } else {
                     cards[i].style.display = "none";
                 }
             }
+        }
+
+        function openModal(toolId) {
+            const modal = document.getElementById('modalOverlay');
+            const body = document.getElementById('modalBody');
+            const template = document.getElementById(toolId + '-tpl');
+            
+            if(template) {
+                body.innerHTML = template.innerHTML;
+                modal.classList.remove('hidden');
+                
+                // Init specific tools if needed
+                if(toolId === 'password-tool') generatePassword();
+            }
+        }
+
+        function closeModal(e) {
+            if(e && e.target !== e.currentTarget) return;
+            document.getElementById('modalOverlay').classList.add('hidden');
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied to clipboard!");
+            });
+        }
+
+        // --- PASSWORD TOOL LOGIC ---
+        function generatePassword() {
+            const length = document.getElementById('pass-len').value;
+            const upper = document.getElementById('inc-upper').checked;
+            const lower = document.getElementById('inc-lower').checked;
+            const num = document.getElementById('inc-num').checked;
+            const sym = document.getElementById('inc-sym').checked;
+            
+            const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const lowerChars = "abcdefghijklmnopqrstuvwxyz";
+            const numChars = "0123456789";
+            const symChars = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            
+            let allChars = "";
+            if(upper) allChars += upperChars;
+            if(lower) allChars += lowerChars;
+            if(num) allChars += numChars;
+            if(sym) allChars += symChars;
+            
+            if(allChars === "") {
+                document.getElementById('pass-result').innerText = "Select at least one option!";
+                return;
+            }
+
+            let password = "";
+            for(let i=0; i<length; i++) {
+                password += allChars.charAt(Math.floor(Math.random() * allChars.length));
+            }
+            document.getElementById('pass-result').innerText = password;
+        }
+
+        // --- JSON TOOL LOGIC ---
+        function processJSON(beautify) {
+            const input = document.getElementById('json-input').value;
+            const output = document.getElementById('json-output');
+            
+            try {
+                const obj = JSON.parse(input);
+                if(beautify) {
+                    output.value = JSON.stringify(obj, null, 4);
+                } else {
+                    output.value = JSON.stringify(obj);
+                }
+            } catch (e) {
+                output.value = "Invalid JSON:\n" + e.message;
+            }
+        }
+
+        // --- IP TOOL LOGIC ---
+        function fetchIP() {
+            const resultDiv = document.getElementById('ip-result');
+            resultDiv.innerHTML = '<div class="spinner"></div>';
+            
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `
+                        <p><strong>IP:</strong> ${data.ip}</p>
+                        <p><strong>Location:</strong> ${data.city}, ${data.region}, ${data.country_name}</p>
+                        <p><strong>ISP:</strong> ${data.org}</p>
+                    `;
+                })
+                .catch(err => {
+                    resultDiv.innerHTML = '<p style="color:var(--danger)">Failed to fetch IP (Adblocker might be interfering). Try disabling extensions.</p>';
+                });
+        }
+
+        // --- BASE64 LOGIC ---
+        function base64Process(action) {
+            const input = document.getElementById('b64-input').value;
+            const result = document.getElementById('b64-result');
+            
+            try {
+                if(action === 'encode') {
+                    result.innerText = btoa(input);
+                } else {
+                    result.innerText = atob(input);
+                }
+            } catch(e) {
+                result.innerText = "Error: Invalid input for decoding.";
+            }
+        }
+
+        // --- QR CODE LOGIC ---
+        function generateQR() {
+            const text = document.getElementById('qr-text').value;
+            const container = document.getElementById('qr-output');
+            container.innerHTML = ""; // Clear previous
+            
+            if(text.trim() === "") return;
+            
+            new QRCode(container, {
+                text: text,
+                width: 128,
+                height: 128,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        // --- DNS LOGIC ---
+        function lookupDNS() {
+            const domain = document.getElementById('dns-domain').value;
+            const type = document.getElementById('dns-type').value;
+            const resultDiv = document.getElementById('dns-result');
+            
+            if(!domain) return;
+            
+            resultDiv.innerHTML = "Querying Google DNS...";
+            
+            fetch(`https://dns.google/resolve?name=${domain}&type=${type}`)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.Answer) {
+                        let output = "";
+                        data.Answer.forEach(record => {
+                            output += `${record.name} \t ${record.data}\n`;
+                        });
+                        resultDiv.innerText = output;
+                    } else {
+                        resultDiv.innerText = "No records found or invalid domain.";
+                    }
+                })
+                .catch(err => {
+                    resultDiv.innerText = "Error fetching DNS data.";
+                });
         }
     </script>
 </body>
