@@ -1,13 +1,225 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>IT INFO BYTE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITInfoByte - Essential Internet Tools</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #2563eb;       /* Tech Blue */
+            --primary-hover: #1d4ed8;
+            --bg-dark: #0f172a;       /* Dark Slate */
+            --bg-card: #1e293b;       /* Lighter Slate */
+            --text-main: #f8fafc;     /* White/Grey */
+            --text-muted: #94a3b8;    /* Muted Grey */
+            --accent: #38bdf8;        /* Cyan accent */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .text-center { text-align: center; }
+
+        /* --- HEADER --- */
+        header { padding: 20px 0; border-bottom: 1px solid #334155; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; }
+        .logo span { color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 15px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; }
+
+        /* --- SEARCH BAR --- */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 60px;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 2px solid #334155;
+            background: var(--bg-card);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); }
+
+        /* --- APP GRID --- */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding-bottom: 80px;
+        }
+        
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .icon-box {
+            width: 50px; height: 50px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .app-card h3 { font-size: 1.25rem; margin-bottom: 10px; }
+        .app-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+        .tag { 
+            display: inline-block; 
+            margin-top: auto; 
+            padding-top: 15px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid #334155;
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .container { padding: 0 15px; }
+        }
+    </style>
 </head>
-<body><div id="main_body"><center>
-<p>
-  &quot;Don't take rest after your first victory because if you fail in second, more lips are waiting to say that your first victory was just luck.&quot;<br>
-</p>
-  <p>Dr. APJ Abdul Kalam</p></center></div>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">IT<span>Info</span>Byte</a>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">v1.0</div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="hero">
+            <h1>Power Tools for the Internet</h1>
+            <p>A curated collection of essential utilities for developers, admins, and web users.</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search tools (e.g., DNS, Password, Calc)..." onkeyup="filterApps()">
+        </div>
+
+        <div class="app-grid" id="appGrid">
+            
+            <a href="#" class="app-card" data-name="password generator security">
+                <div class="icon-box">🔑</div>
+                <h3>Secure Password Gen</h3>
+                <p>Generate strong, random passwords locally in your browser. Customizable length and characters.</p>
+                <span class="tag">Security</span>
+            </a>
+
+            <a href="#" class="app-card" data-name="json formatter beautifier code">
+                <div class="icon-box">{}</div>
+                <h3>JSON Formatter</h3>
+                <p>Validate, beautify, and minify your JSON code instantly to make it readable.</p>
+                <span class="tag">Developer</span>
+            </a>
+
+            <a href="#" class="app-card" data-name="ip address lookup network whois">
+                <div class="icon-box">🌐</div>
+                <h3>My IP Info</h3>
+                <p>Check your public IP address, location data, and ISP details quickly.</p>
+                <span class="tag">Network</span>
+            </a>
+
+            <a href="#" class="app-card" data-name="base64 encode decode text">
+                <div class="icon-box">64</div>
+                <h3>Base64 Converter</h3>
+                <p>Encode and decode text or images to Base64 strings easily.</p>
+                <span class="tag">Utility</span>
+            </a>
+
+            <a href="#" class="app-card" data-name="qr code generator mobile link">
+                <div class="icon-box">📱</div>
+                <h3>QR Code Generator</h3>
+                <p>Create QR codes for URLs, WiFi access, or plain text instantly.</p>
+                <span class="tag">Mobile</span>
+            </a>
+
+            <a href="#" class="app-card" data-name="dns propagation checker">
+                <div class="icon-box">📡</div>
+                <h3>DNS Checker</h3>
+                <p>Verify DNS propagation across multiple global servers.</p>
+                <span class="tag">Network</span>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ITInfoByte.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function filterApps() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toUpperCase();
+            let grid = document.getElementById('appGrid');
+            let cards = grid.getElementsByClassName('app-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let dataName = cards[i].getAttribute('data-name');
+                if (dataName.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
