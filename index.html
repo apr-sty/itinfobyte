@@ -1,199 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-WVZKZJWZ');</script>
-<!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QSWSF0BMJ4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-QSWSF0BMJ4');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITInfoByte - Essential Internet Tools</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>ITInfoByte - Power Tools for the Internet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS VARIABLES & MODERN DESIGN TOKENS --- */
         :root {
-            /* Primary Colors */
-            --primary: #3b82f6;       
-            --primary-hover: #2563eb;
-            --primary-light: rgba(59, 130, 246, 0.1);
-            
-            /* Backgrounds */
-            --bg-dark: #0a0e1a;
-            --bg-darker: #050810;       
-            --bg-card: rgba(30, 41, 59, 0.4);
-            --bg-card-hover: rgba(30, 41, 59, 0.6);
-            
-            /* Glass Effects */
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-            
-            /* Text Colors */
-            --text-main: #f1f5f9;     
-            --text-muted: #94a3b8;
-            --text-dim: #64748b;
-            
-            /* Accent Colors */
-            --accent: #06b6d4;
-            --accent-purple: #a855f7;
-            --accent-pink: #ec4899;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-            
-            /* Gradients */
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-            --gradient-warm: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            
-            /* Spacing */
-            --space-xs: 0.5rem;
-            --space-sm: 1rem;
-            --space-md: 1.5rem;
-            --space-lg: 2rem;
-            --space-xl: 3rem;
-            
-            /* Shadows */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+            --bg-deep: #0a0a0f;
+            --bg-surface: #12121a;
+            --bg-elevated: #1a1a25;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f0f0f5;
+            --text-secondary: #8888a0;
+            --text-muted: #55556a;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff00aa;
+            --accent-lime: #b8ff00;
+            --accent-orange: #ff6b00;
+            --gradient-primary: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            --gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(0, 240, 255, 0.15) 0%, transparent 60%);
         }
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            position: relative;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
             overflow-x: hidden;
+            line-height: 1.6;
         }
-        
-        /* Animated Background Gradient */
-        body::before {
-            content: "";
+
+        /* Animated Background */
+        .bg-grid {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150%;
+            height: 100%;
+            background: var(--gradient-glow);
+            pointer-events: none;
+            z-index: 0;
+            animation: pulse-glow 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 240, 255, 0.1);
+            top: 10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 0, 170, 0.1);
+            top: 60%;
+            right: -5%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: rgba(184, 255, 0, 0.08);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 30px) scale(1.02); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--bg-deep);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-            animation: gradientShift 15s ease infinite;
-            z-index: -1;
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(10%, 10%); }
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s ease-in-out infinite;
         }
 
-        /* --- LAYOUT UTILITIES --- */
-        .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 0 var(--space-lg); 
+        @keyframes shine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
         }
-        
-        .text-center { text-align: center; }
-        .hidden { display: none !important; }
 
-        /* --- HEADER WITH GLASS EFFECT --- */
-        header { 
-            padding: var(--space-lg) 0; 
-            backdrop-filter: blur(10px);
-            background: var(--glass-bg);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        nav { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        
-        .logo { 
-            font-size: 1.75rem; 
-            font-weight: 800; 
-            color: var(--text-main); 
-            text-decoration: none; 
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
             letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
-        
-        .logo:hover {
-            transform: translateY(-2px);
-        }
-        
-        .logo span { 
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .version-badge {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            color: var(--text-muted);
-            backdrop-filter: blur(10px);
+
+        nav a:hover {
+            color: var(--text-primary);
+            background: var(--glass);
         }
 
-        /* --- HERO SECTION WITH GRADIENT --- */
-        .hero { 
-            padding: var(--space-xl) 0 var(--space-lg); 
-            text-align: center; 
+        .nav-cta {
+            background: var(--gradient-primary) !important;
+            color: var(--bg-deep) !important;
+            font-weight: 600 !important;
         }
-        
-        .hero h1 { 
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: var(--space-md); 
-            font-weight: 900;
-            background: var(--gradient-hero);
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fade-in-up 0.8s ease-out;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-lime);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 0.8s ease-out 0.1s both;
+        }
+
+        .hero h1 .gradient {
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -1px;
-            animation: fadeInUp 0.8s ease;
         }
-        
-        .hero p { 
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: var(--text-muted); 
-            margin-bottom: var(--space-xl);
-            animation: fadeInUp 0.8s ease 0.2s both;
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            animation: fade-in-up 0.8s ease-out 0.2s both;
         }
-        
-        @keyframes fadeInUp {
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fade-in-up 0.8s ease-out 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--bg-deep);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-cyan);
+        }
+
+        @keyframes fade-in-up {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -201,1111 +346,1364 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         }
 
-        /* --- MODERN SEARCH BAR --- */
-        .search-container { 
-            max-width: 600px; 
-            margin: 0 auto var(--space-xl); 
-            position: relative;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-        
-        .search-input {
-            width: 100%; 
-            padding: 1rem 1.5rem 1rem 3.5rem;
-            border-radius: 50px;
-            border: 2px solid var(--glass-border); 
-            background: var(--glass-bg);
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            padding: 2rem 3rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             backdrop-filter: blur(10px);
-            color: var(--text-main); 
-            font-size: 1rem; 
-            outline: none; 
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .search-input:focus { 
-            border-color: var(--primary); 
-            box-shadow: var(--shadow-glow);
-            background: var(--bg-card);
-        }
-        
-        .search-container::before {
-            content: "🔍";
-            position: absolute;
-            left: 1.25rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.25rem;
-            pointer-events: none;
+            animation: fade-in-up 0.8s ease-out 0.4s both;
         }
 
-        /* --- GLASSMORPHIC APP GRID --- */
-        .app-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: var(--space-md); 
-            padding-bottom: var(--space-xl);
+        .stat {
+            text-align: center;
         }
-        
-        .app-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: var(--space-md);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none; 
-            color: inherit; 
-            display: flex;
-            flex-direction: column; 
-            align-items: flex-start; 
-            cursor: pointer;
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Tools Section */
+        .tools-section {
             position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+            z-index: 1;
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
-        .app-card::before {
-            content: "";
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.7rem 1.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        .filter-tab.active {
+            background: var(--gradient-primary);
+            color: var(--bg-deep);
+            border-color: transparent;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            position: relative;
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .tool-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-        
-        .app-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-            background: var(--bg-card-hover);
-        }
-        
-        .app-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .icon-box {
-            width: 60px; 
-            height: 60px; 
-            background: var(--gradient-accent);
-            border-radius: 14px;
-            display: flex; 
-            align-items: center;
-            justify-content: center; 
-            margin-bottom: var(--space-md);
-            font-size: 1.75rem; 
-            font-weight: bold;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-        }
-        
-        .app-card:hover .icon-box {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .app-card h3 { 
-            font-size: 1.25rem; 
-            margin-bottom: var(--space-xs); 
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        
-        .app-card p { 
-            font-size: 0.95rem; 
-            color: var(--text-muted); 
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-        
-        .tag { 
-            display: inline-block; 
-            margin-top: var(--space-sm); 
-            padding: 0.35rem 0.85rem; 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-            background: var(--primary-light);
-            color: var(--accent); 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            border-radius: 20px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        /* --- MODERN MODAL SYSTEM --- */
-        .modal-overlay {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
+            width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85); 
-            z-index: 1000;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            backdrop-filter: blur(8px);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
         }
 
-        .modal-content {
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            width: 90%; 
-            max-width: 700px;
-            border-radius: 20px; 
-            border: 1px solid var(--glass-border);
-            padding: var(--space-xl); 
-            position: relative; 
-            max-height: 90vh; 
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        /* Custom Scrollbar */
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .modal-content::-webkit-scrollbar-track {
-            background: var(--bg-darker);
-            border-radius: 10px;
-        }
-        
-        .modal-content::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 240, 255, 0.1);
         }
 
-        .close-btn {
-            position: absolute; 
-            top: var(--space-md); 
-            right: var(--space-md); 
-            font-size: 1.75rem;
-            cursor: pointer; 
-            color: var(--text-muted); 
-            transition: all 0.2s;
-            width: 36px;
-            height: 36px;
+        .tool-card:hover::before {
+            opacity: 0.03;
+        }
+
+        .tool-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: var(--glass-bg);
-        }
-        
-        .close-btn:hover { 
-            color: var(--text-main);
-            background: var(--danger);
-            transform: rotate(90deg);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
         }
 
-        /* --- MODERN TOOL UI ELEMENTS --- */
-        .tool-header { 
-            margin-bottom: var(--space-md); 
-            border-bottom: 2px solid var(--glass-border); 
-            padding-bottom: var(--space-sm); 
+        .tool-card:hover .tool-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
-        
-        .tool-header h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        .tool-icon.security { background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.05)); }
+        .tool-icon.developer { background: linear-gradient(135deg, rgba(255, 0, 170, 0.2), rgba(255, 0, 170, 0.05)); }
+        .tool-icon.network { background: linear-gradient(135deg, rgba(184, 255, 0, 0.2), rgba(184, 255, 0, 0.05)); }
+        .tool-icon.utility { background: linear-gradient(135deg, rgba(255, 107, 0, 0.2), rgba(255, 107, 0, 0.05)); }
+        .tool-icon.design { background: linear-gradient(135deg, rgba(255, 100, 200, 0.2), rgba(255, 100, 200, 0.05)); }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
         }
-        
-        .btn {
-            padding: 0.75rem 1.5rem; 
-            background: var(--gradient-accent);
-            color: white;
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 1rem;
+
+        .tool-card h3 {
+            font-size: 1.25rem;
             font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .tool-tag {
+            padding: 0.3rem 0.7rem;
+            background: var(--glass);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .tool-tag.security { color: var(--accent-cyan); }
+        .tool-tag.developer { color: var(--accent-magenta); }
+        .tool-tag.network { color: var(--accent-lime); }
+        .tool-tag.utility { color: var(--accent-orange); }
+        .tool-tag.design { color: #ff64c8; }
+
+        .tool-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-arrow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(-10px);
             transition: all 0.3s ease;
-            display: inline-block;
+        }
+
+        .tool-card:hover .tool-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Features Section */
+        .features-section {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2rem;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: var(--gradient-primary);
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem;
+            background: linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
         }
-        
-        .btn::before {
-            content: "";
+
+        .cta-box::before {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn-outline { 
-            background: transparent; 
-            border: 2px solid var(--primary); 
-            color: var(--primary);
-            margin-left: var(--space-xs); 
-        }
-        
-        .btn-outline:hover { 
-            background: var(--primary-light);
-            border-color: var(--primary-hover);
-        }
-        
-        .btn-danger { 
-            background: var(--danger); 
-            margin-left: var(--space-xs); 
-        }
-        
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-        
-        input[type="text"], 
-        input[type="number"], 
-        input[type="date"],
-        input[type="datetime-local"],
-        textarea, 
-        select {
-            width: 100%; 
-            padding: 0.875rem; 
-            margin: var(--space-xs) 0;
-            background: var(--glass-bg); 
-            border: 2px solid var(--glass-border);
-            color: var(--text-main); 
-            border-radius: 10px; 
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        input[type="date"]:focus,
-        input[type="datetime-local"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--bg-card);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        input[type="range"] {
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 6px;
-            border-radius: 5px;
-            background: var(--glass-bg);
-            outline: none;
-            margin: var(--space-sm) 0;
+            height: 4px;
+            background: var(--gradient-primary);
         }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--gradient-accent);
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s;
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
         }
-        
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: var(--shadow-md);
+
+        .cta-box p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
         }
-        
-        input[type="color"] {
-            width: 100%;
-            height: 60px;
-            border: 2px solid var(--glass-border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
         }
-        
-        input[type="color"]:hover {
-            border-color: var(--primary);
-            transform: scale(1.02);
-        }
-        
-        textarea { 
-            min-height: 150px; 
-            font-family: 'Courier New', monospace;
-            resize: vertical;
-        }
-        
-        .result-box {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px); 
-            padding: var(--space-md); 
-            border-radius: 10px;
-            border: 2px solid var(--glass-border); 
-            margin-top: var(--space-md); 
-            word-break: break-all;
-            font-family: 'Courier New', monospace; 
-            min-height: 50px; 
-            display: flex; 
-            align-items: center; 
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
             justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-        
-        .result-box:hover {
-            border-color: var(--primary);
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .checkbox-group { 
-            display: flex; 
-            gap: var(--space-md); 
-            margin: var(--space-md) 0; 
-            flex-wrap: wrap; 
-        }
-        
-        .checkbox-group label { 
-            display: flex; 
-            align-items: center; 
-            gap: var(--space-xs); 
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .checkbox-group label:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--primary);
-        }
-        
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        /* Tool Specific Styles */
-        #qr-output { 
-            margin-top: var(--space-md);
-        }
-        
-        #qr-output img { 
-            margin: var(--space-md) auto; 
-            border: 5px solid white; 
-            border-radius: 10px;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .spinner { 
-            border: 4px solid rgba(255,255,255,0.1); 
-            border-top: 4px solid var(--primary); 
-            border-radius: 50%; 
-            width: 40px; 
-            height: 40px; 
-            animation: spin 1s linear infinite; 
-            margin: var(--space-md) auto; 
-        }
-        
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
-        
-        /* Stopwatch Display */
-        .timer-display { 
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 900; 
-            text-align: center; 
-            font-family: 'Courier New', monospace; 
-            letter-spacing: 8px; 
-            margin: var(--space-lg) 0; 
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Color Picker */
-        .color-preview { 
-            width: 100%; 
-            height: 120px; 
-            border-radius: 12px; 
-            border: 2px solid var(--glass-border); 
-            margin-bottom: var(--space-md);
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-        }
-        
-        .color-preview:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .color-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-md);
-            margin-top: var(--space-md);
-        }
-
-        /* --- FOOTER --- */
-        footer { 
-            border-top: 1px solid var(--glass-border); 
-            padding: var(--space-xl) 0; 
-            text-align: center; 
-            color: var(--text-muted); 
+        .footer-text {
+            color: var(--text-muted);
             font-size: 0.9rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
         }
-        
-        footer p {
-            margin-bottom: var(--space-xs);
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
         }
-        
-        .footer-link {
-            color: var(--accent);
+
+        .footer-links a {
+            color: var(--text-secondary);
             text-decoration: none;
+            font-size: 0.9rem;
             transition: color 0.3s ease;
         }
-        
-        .footer-link:hover {
-            color: var(--primary);
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
         }
-        
-        /* --- RESPONSIVE DESIGN --- */
-        @media (max-width: 768px) {
-            .hero h1 { 
-                font-size: 2.2rem; 
-            }
-            
-            .container { 
-                padding: 0 var(--space-sm); 
-            }
-            
-            .app-grid {
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            background: var(--bg-elevated);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .checkbox-item input {
+            display: none;
+        }
+
+        .checkbox-item input:checked + span {
+            color: var(--accent-cyan);
+        }
+
+        .checkbox-item input:checked ~ .check-icon {
+            background: var(--accent-cyan);
+        }
+
+        .check-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--bg-deep);
+            transition: all 0.3s ease;
+        }
+
+        .result-box {
+            background: var(--bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-all;
+            color: var(--accent-lime);
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .features-grid {
                 grid-template-columns: 1fr;
-                gap: var(--space-sm);
             }
-            
-            .modal-content {
-                padding: var(--space-md);
-                width: 95%;
-            }
-            
-            .checkbox-group {
+
+            .stats-bar {
                 flex-direction: column;
+                gap: 1.5rem;
             }
-            
-            .timer-display {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
-            }
-            
-            .color-grid {
-                grid-template-columns: 1fr;
+
+            nav {
+                display: none;
             }
         }
-        
-        /* --- ACCESSIBILITY --- */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+
+        @media (max-width: 600px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: -1px;
+            }
+
+            .cta-box {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .footer-inner {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WVZKZJWZ"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
+    <!-- Header -->
     <header>
-        <div class="container">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">IT</div>
+                <span class="logo-text">ITInfo<span>Byte</span></span>
+            </a>
             <nav>
-                <a href="#" class="logo">IT<span>Info</span>Byte</a>
-                <div class="version-badge">v2.0 Pro</div>
+                <a href="#tools">Tools</a>
+                <a href="#features">Features</a>
+                <a href="#" class="nav-cta">Get Started</a>
             </nav>
         </div>
     </header>
 
-    <div class="container">
-        
-        <div class="hero">
-            <h1>Power Tools for the Internet</h1>
-            <p>A curated collection of essential utilities for developers, admins, and web users.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            All tools run 100% client-side
+        </div>
+        <h1>Power Tools for<br>the <span class="gradient">Internet</span></h1>
+        <p>A curated collection of essential utilities for developers, system admins, and power users. Fast, secure, and always free.</p>
+        <div class="hero-buttons">
+            <a href="#tools" class="btn btn-primary">
+                <span>Explore Tools</span>
+                <span>→</span>
+            </a>
+            <a href="#" class="btn btn-secondary">
+                <span>⭐</span>
+                <span>Star on GitHub</span>
+            </a>
+        </div>
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value">10+</div>
+                <div class="stat-label">Free Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Server Requests</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Privacy</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section" id="tools">
+        <div class="section-header">
+            <span class="section-tag">// Toolkit</span>
+            <h2>Essential Web Utilities</h2>
+            <p>Click any tool to start using it instantly. No signup required.</p>
         </div>
 
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search tools (e.g., DNS, Timestamp, Color)..." onkeyup="filterApps()">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All Tools</button>
+            <button class="filter-tab" data-filter="security">Security</button>
+            <button class="filter-tab" data-filter="developer">Developer</button>
+            <button class="filter-tab" data-filter="network">Network</button>
+            <button class="filter-tab" data-filter="utility">Utility</button>
         </div>
 
-        <div class="app-grid" id="appGrid">
-            
-            <div class="app-card" onclick="openModal('password-tool')" data-name="password generator security">
-                <div class="icon-box">🔑</div>
-                <h3>Secure Password Gen</h3>
-                <p>Generate strong, random passwords. Customizable length and characters.</p>
-                <span class="tag">Security</span>
+        <div class="tools-grid">
+            <!-- Password Generator -->
+            <div class="tool-card" data-category="security" onclick="openModal('password')">
+                <div class="tool-icon security">🔐</div>
+                <div class="tool-header">
+                    <h3>Password Generator</h3>
+                    <span class="tool-tag security">Security</span>
+                </div>
+                <p>Generate cryptographically secure passwords with customizable length and character sets.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('json-tool')" data-name="json formatter beautifier code">
-                <div class="icon-box">{}</div>
-                <h3>JSON Formatter</h3>
-                <p>Validate, beautify, and minify your JSON code instantly.</p>
-                <span class="tag">Developer</span>
+            <!-- JSON Formatter -->
+            <div class="tool-card" data-category="developer" onclick="openModal('json')">
+                <div class="tool-icon developer">{ }</div>
+                <div class="tool-header">
+                    <h3>JSON Formatter</h3>
+                    <span class="tool-tag developer">Developer</span>
+                </div>
+                <p>Validate, beautify, and minify your JSON code with syntax highlighting.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('ip-tool')" data-name="ip address lookup network whois">
-                <div class="icon-box">🌐</div>
-                <h3>My IP Info</h3>
-                <p>Check your public IP address, location data, and ISP details.</p>
-                <span class="tag">Network</span>
+            <!-- IP Info -->
+            <div class="tool-card" data-category="network" onclick="openModal('ip')">
+                <div class="tool-icon network">🌐</div>
+                <div class="tool-header">
+                    <h3>My IP Address</h3>
+                    <span class="tool-tag network">Network</span>
+                </div>
+                <p>Discover your public IP address, geolocation, ISP, and network details.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('base64-tool')" data-name="base64 encode decode text">
-                <div class="icon-box">64</div>
-                <h3>Base64 Converter</h3>
-                <p>Encode and decode text strings to Base64 format easily.</p>
-                <span class="tag">Utility</span>
+            <!-- Base64 -->
+            <div class="tool-card" data-category="utility" onclick="openModal('base64')">
+                <div class="tool-icon utility">64</div>
+                <div class="tool-header">
+                    <h3>Base64 Converter</h3>
+                    <span class="tool-tag utility">Utility</span>
+                </div>
+                <p>Encode text to Base64 or decode Base64 strings back to plain text.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('qr-tool')" data-name="qr code generator mobile link">
-                <div class="icon-box">📱</div>
-                <h3>QR Code Generator</h3>
-                <p>Create QR codes for URLs, WiFi access, or plain text instantly.</p>
-                <span class="tag">Mobile</span>
+            <!-- QR Code -->
+            <div class="tool-card" data-category="utility" onclick="openModal('qr')">
+                <div class="tool-icon utility">📱</div>
+                <div class="tool-header">
+                    <h3>QR Code Generator</h3>
+                    <span class="tool-tag utility">Utility</span>
+                </div>
+                <p>Create QR codes for URLs, WiFi credentials, text, or contact information.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('dns-tool')" data-name="dns propagation checker">
-                <div class="icon-box">📡</div>
-                <h3>DNS Lookup</h3>
-                <p>Query DNS records (A, MX, NS, TXT) using Google DNS API.</p>
-                <span class="tag">Network</span>
+            <!-- DNS Lookup -->
+            <div class="tool-card" data-category="network" onclick="openModal('dns')">
+                <div class="tool-icon network">📡</div>
+                <div class="tool-header">
+                    <h3>DNS Lookup</h3>
+                    <span class="tool-tag network">Network</span>
+                </div>
+                <p>Query DNS records including A, AAAA, MX, NS, and TXT using Google DNS API.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('unix-tool')" data-name="unix timestamp converter epoch">
-                <div class="icon-box">🕒</div>
-                <h3>Unix Timestamp</h3>
-                <p>Convert between Epoch timestamps and human-readable dates.</p>
-                <span class="tag">Developer</span>
+            <!-- Unix Timestamp -->
+            <div class="tool-card" data-category="developer" onclick="openModal('timestamp')">
+                <div class="tool-icon developer">🕐</div>
+                <div class="tool-header">
+                    <h3>Unix Timestamp</h3>
+                    <span class="tool-tag developer">Developer</span>
+                </div>
+                <p>Convert between Unix epoch timestamps and human-readable date formats.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('url-tool')" data-name="url encode decode string">
-                <div class="icon-box">🔗</div>
-                <h3>URL Encoder/Decoder</h3>
-                <p>Safely encode special characters in URLs or decode them back.</p>
-                <span class="tag">Utility</span>
+            <!-- URL Encoder -->
+            <div class="tool-card" data-category="utility" onclick="openModal('url')">
+                <div class="tool-icon utility">🔗</div>
+                <div class="tool-header">
+                    <h3>URL Encoder</h3>
+                    <span class="tool-tag utility">Utility</span>
+                </div>
+                <p>Encode special characters in URLs or decode percent-encoded strings.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('color-tool')" data-name="color picker converter hex rgb">
-                <div class="icon-box">🎨</div>
-                <h3>Color Converter</h3>
-                <p>Pick colors and convert between HEX, RGB, and HSL formats.</p>
-                <span class="tag">Design</span>
+            <!-- Color Converter -->
+            <div class="tool-card" data-category="design" onclick="openModal('color')">
+                <div class="tool-icon design">🎨</div>
+                <div class="tool-header">
+                    <h3>Color Converter</h3>
+                    <span class="tool-tag design">Design</span>
+                </div>
+                <p>Convert colors between HEX, RGB, and HSL formats with live preview.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
 
-            <div class="app-card" onclick="openModal('stopwatch-tool')" data-name="stopwatch timer clock">
-                <div class="icon-box">⏱️</div>
-                <h3>Stopwatch</h3>
-                <p>A simple, precise stopwatch with start, stop, and reset functions.</p>
-                <span class="tag">Utility</span>
+            <!-- Stopwatch -->
+            <div class="tool-card" data-category="utility" onclick="openModal('stopwatch')">
+                <div class="tool-icon utility">⏱️</div>
+                <div class="tool-header">
+                    <h3>Stopwatch</h3>
+                    <span class="tool-tag utility">Utility</span>
+                </div>
+                <p>Precision stopwatch with lap times, start, stop, and reset functionality.</p>
+                <div class="tool-arrow">Launch tool →</div>
             </div>
-
         </div>
-    </div>
+    </section>
 
-    <div id="modalOverlay" class="modal-overlay hidden" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-btn" onclick="closeModal(null)">&times;</span>
-            <div id="modalBody"></div>
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <span class="section-tag">// Why ITInfoByte</span>
+            <h2>Built Different</h2>
+            <p>Every tool is designed with privacy and performance in mind.</p>
         </div>
-    </div>
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>100% Client-Side</h3>
+                <p>All processing happens in your browser. Your data never leaves your device.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Blazing Fast</h3>
+                <p>No server round-trips. Tools respond instantly without any loading time.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h3>Zero Bloat</h3>
+                <p>Clean, focused tools that do one thing well. No ads, no distractions.</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-box">
+            <h2>Ready to Get Started?</h2>
+            <p>Bookmark ITInfoByte and have all your essential web tools at your fingertips.</p>
+            <a href="#tools" class="btn btn-primary">Explore All Tools →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2025 <span class="footer-link">ITInfoByte.com</span>. All tools run client-side.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.85rem;">Built with modern web technologies ✨</p>
+        <div class="footer-inner">
+            <span class="footer-text">© 2025 ITInfoByte.com — Built with modern web technologies ✨</span>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </div>
         </div>
     </footer>
 
-    <!-- TEMPLATES -->
-    <template id="password-tool-tpl">
-        <div class="tool-header"><h2>🔑 Secure Password Generator</h2></div>
-        <label style="font-weight: 600; color: var(--text-muted);">Length: <span id="pass-len-val" style="color: var(--accent); font-weight: 700;">16</span></label>
-        <input type="range" id="pass-len" min="4" max="64" value="16" oninput="document.getElementById('pass-len-val').innerText = this.value">
-        <div class="checkbox-group">
-            <label><input type="checkbox" id="inc-upper" checked> Uppercase</label>
-            <label><input type="checkbox" id="inc-lower" checked> Lowercase</label>
-            <label><input type="checkbox" id="inc-num" checked> Numbers</label>
-            <label><input type="checkbox" id="inc-sym" checked> Symbols</label>
-        </div>
-        <button class="btn" onclick="generatePassword()">🎲 Generate New</button>
-        <div class="result-box">
-            <span id="pass-result" style="color: var(--accent); font-weight: 600;">Click generate...</span>
-            <button class="btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="copyToClipboard('pass-result')">📋 Copy</button>
-        </div>
-    </template>
-
-    <template id="json-tool-tpl">
-        <div class="tool-header"><h2>{} JSON Formatter</h2></div>
-        <textarea id="json-input" placeholder='Paste dirty JSON here... e.g. {"name":"John","age":30}'></textarea>
-        <div style="margin-top: var(--space-sm);">
-            <button class="btn" onclick="processJSON(true)">✨ Beautify</button>
-            <button class="btn-outline" onclick="processJSON(false)">🗜️ Minify</button>
-        </div>
-        <textarea id="json-output" placeholder="Result will appear here..." readonly style="margin-top: var(--space-md);"></textarea>
-    </template>
-
-    <template id="ip-tool-tpl">
-        <div class="tool-header"><h2>🌐 IP Address Lookup</h2></div>
-        <p style="margin-bottom: var(--space-md); color: var(--text-muted);">Click below to fetch your public network details.</p>
-        <button class="btn" onclick="fetchIP()">🔍 Fetch My IP Info</button>
-        <div id="ip-result" style="margin-top: var(--space-md);"></div>
-    </template>
-
-    <template id="base64-tool-tpl">
-        <div class="tool-header"><h2>64 Base64 Encoder/Decoder</h2></div>
-        <textarea id="b64-input" placeholder="Type text here..."></textarea>
-        <div style="margin-bottom: var(--space-md); margin-top: var(--space-sm);">
-            <button class="btn" onclick="base64Process('encode')">🔒 Encode</button>
-            <button class="btn-outline" onclick="base64Process('decode')">🔓 Decode</button>
-        </div>
-        <div class="result-box">
-            <span id="b64-result" style="word-break: break-all;">Result...</span>
-            <button class="btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="copyToClipboard('b64-result')">📋 Copy</button>
-        </div>
-    </template>
-
-    <template id="qr-tool-tpl">
-        <div class="tool-header"><h2>📱 QR Code Generator</h2></div>
-        <input type="text" id="qr-text" placeholder="Enter URL or Text (e.g., https://google.com)">
-        <button class="btn" onclick="generateQR()" style="margin-top: var(--space-sm);">🎨 Generate QR</button>
-        <div id="qr-output" class="text-center" style="margin-top: var(--space-md);"></div>
-    </template>
-
-    <template id="dns-tool-tpl">
-        <div class="tool-header"><h2>📡 DNS Record Lookup</h2></div>
-        <div style="display: flex; gap: var(--space-xs); flex-wrap: wrap;">
-            <input type="text" id="dns-domain" placeholder="example.com" style="flex: 1; min-width: 200px;">
-            <select id="dns-type" style="width: 120px;">
-                <option value="A">A</option>
-                <option value="AAAA">AAAA</option>
-                <option value="MX">MX</option>
-                <option value="NS">NS</option>
-                <option value="TXT">TXT</option>
-            </select>
-        </div>
-        <button class="btn" onclick="lookupDNS()" style="margin-top: var(--space-sm);">🔍 Lookup Records</button>
-        <div id="dns-result" style="margin-top: var(--space-md); white-space: pre-wrap; font-family: 'Courier New', monospace; background: var(--glass-bg); padding: var(--space-md); border-radius: 10px; border: 2px solid var(--glass-border);"></div>
-    </template>
-
-    <template id="unix-tool-tpl">
-        <div class="tool-header"><h2>🕒 Unix Timestamp Converter</h2></div>
-        <p style="color: var(--text-muted);">Current Time: <span id="unix-current" style="color: var(--accent); font-weight: 700; font-family: monospace;"></span></p>
-        <hr style="border-color: var(--glass-border); margin: var(--space-md) 0;">
-        
-        <label style="font-weight: 600; color: var(--text-muted);">Enter Timestamp (seconds):</label>
-        <div style="display: flex; gap: var(--space-xs); margin-top: var(--space-xs);">
-            <input type="number" id="unix-input" placeholder="e.g. 1672531200" style="flex: 1;">
-            <button class="btn" onclick="convertUnix('toHuman')">➡️ Convert</button>
-        </div>
-        <div id="unix-human-result" class="result-box">Human date will appear here</div>
-        
-        <hr style="border-color: var(--glass-border); margin: var(--space-md) 0;">
-
-        <label style="font-weight: 600; color: var(--text-muted);">Enter Date:</label>
-        <div style="display: flex; gap: var(--space-xs); margin-top: var(--space-xs);">
-            <input type="datetime-local" id="unix-date-input" style="flex: 1;">
-            <button class="btn" onclick="convertUnix('toEpoch')">⬅️ Get Timestamp</button>
-        </div>
-        <div id="unix-epoch-result" class="result-box">Timestamp will appear here</div>
-    </template>
-
-    <template id="url-tool-tpl">
-        <div class="tool-header"><h2>🔗 URL Encoder / Decoder</h2></div>
-        <textarea id="url-input" placeholder="Paste URL here (e.g. https://example.com/search?q=hello world)"></textarea>
-        <div style="margin-top: var(--space-sm);">
-            <button class="btn" onclick="processURL('encode')">🔒 Encode</button>
-            <button class="btn-outline" onclick="processURL('decode')">🔓 Decode</button>
-        </div>
-        <div class="result-box" style="margin-top: var(--space-md);">
-            <span id="url-result" style="word-break: break-all;">Result...</span>
-            <button class="btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="copyToClipboard('url-result')">📋 Copy</button>
-        </div>
-    </template>
-
-    <template id="color-tool-tpl">
-        <div class="tool-header"><h2>🎨 Color Converter</h2></div>
-        <div id="color-preview-box" class="color-preview" style="background-color: #3b82f6;"></div>
-        
-        <label style="font-weight: 600; color: var(--text-muted);">Pick Color:</label>
-        <input type="color" id="color-picker" value="#3b82f6" oninput="updateColorFromPicker(this.value)">
-        
-        <div class="color-grid">
-            <div>
-                <label style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">HEX</label>
-                <input type="text" id="color-hex" value="#3b82f6" readonly>
+    <!-- Modal: Password Generator -->
+    <div class="modal-overlay" id="modal-password">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>🔐 Password Generator</h3>
+                <button class="modal-close" onclick="closeModal('password')">×</button>
             </div>
-            <div>
-                <label style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">RGB</label>
-                <input type="text" id="color-rgb" value="rgb(59, 130, 246)" readonly>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Password Length</label>
+                    <div class="slider-container">
+                        <input type="range" class="slider" id="pwd-length" min="8" max="64" value="16" oninput="updatePwdLength()">
+                        <span class="slider-value" id="pwd-length-value">16</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Include Characters</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pwd-upper" checked>
+                            <span>ABC</span>
+                            <div class="check-icon">✓</div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pwd-lower" checked>
+                            <span>abc</span>
+                            <div class="check-icon">✓</div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pwd-numbers" checked>
+                            <span>123</span>
+                            <div class="check-icon">✓</div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pwd-symbols" checked>
+                            <span>!@#</span>
+                            <div class="check-icon">✓</div>
+                        </label>
+                    </div>
+                </div>
+                <div class="result-box" id="pwd-result">Click Generate</div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="generatePassword()">🎲 Generate</button>
+                    <button class="btn btn-secondary" onclick="copyResult('pwd-result')">📋 Copy</button>
+                </div>
             </div>
         </div>
-    </template>
+    </div>
 
-    <template id="stopwatch-tool-tpl">
-        <div class="tool-header"><h2>⏱️ Stopwatch</h2></div>
-        <div id="timer-display" class="timer-display">00:00:00</div>
-        <div class="text-center">
-            <button class="btn" onclick="startTimer()">▶️ Start</button>
-            <button class="btn btn-danger" onclick="stopTimer()">⏸️ Stop</button>
-            <button class="btn-outline" onclick="resetTimer()">🔄 Reset</button>
+    <!-- Modal: JSON Formatter -->
+    <div class="modal-overlay" id="modal-json">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>{ } JSON Formatter</h3>
+                <button class="modal-close" onclick="closeModal('json')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Paste your JSON</label>
+                    <textarea class="form-input" id="json-input" placeholder='{"key": "value"}'></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="formatJSON(true)">✨ Beautify</button>
+                    <button class="btn btn-secondary" onclick="formatJSON(false)">🗜️ Minify</button>
+                </div>
+            </div>
         </div>
-    </template>
+    </div>
+
+    <!-- Modal: IP Info -->
+    <div class="modal-overlay" id="modal-ip">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>🌐 My IP Address</h3>
+                <button class="modal-close" onclick="closeModal('ip')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="result-box" id="ip-result" style="flex-direction: column; gap: 0.5rem;">Click to fetch your IP</div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="fetchIP()">🔍 Fetch My IP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Base64 -->
+    <div class="modal-overlay" id="modal-base64">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>64 Base64 Converter</h3>
+                <button class="modal-close" onclick="closeModal('base64')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Enter text</label>
+                    <textarea class="form-input" id="base64-input" placeholder="Enter text to encode/decode..."></textarea>
+                </div>
+                <div class="result-box" id="base64-result">Result will appear here</div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="base64Convert('encode')">🔒 Encode</button>
+                    <button class="btn btn-secondary" onclick="base64Convert('decode')">🔓 Decode</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: QR Code -->
+    <div class="modal-overlay" id="modal-qr">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>📱 QR Code Generator</h3>
+                <button class="modal-close" onclick="closeModal('qr')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Enter URL or text</label>
+                    <input type="text" class="form-input" id="qr-input" placeholder="https://example.com">
+                </div>
+                <div class="result-box" id="qr-result" style="min-height: 200px;">
+                    <img id="qr-image" src="" alt="QR Code" style="display: none; max-width: 180px;">
+                    <span id="qr-placeholder">Enter text and generate</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="generateQR()">🎨 Generate QR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: DNS Lookup -->
+    <div class="modal-overlay" id="modal-dns">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>📡 DNS Lookup</h3>
+                <button class="modal-close" onclick="closeModal('dns')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Domain name</label>
+                    <input type="text" class="form-input" id="dns-domain" placeholder="example.com">
+                </div>
+                <div class="form-group">
+                    <label>Record type</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="dns-type" value="A" checked>
+                            <span>A</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="dns-type" value="AAAA">
+                            <span>AAAA</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="dns-type" value="MX">
+                            <span>MX</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="dns-type" value="TXT">
+                            <span>TXT</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="result-box" id="dns-result" style="text-align: left; font-size: 0.85rem;">Enter domain and lookup</div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="dnsLookup()">🔍 Lookup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Timestamp -->
+    <div class="modal-overlay" id="modal-timestamp">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>🕐 Unix Timestamp</h3>
+                <button class="modal-close" onclick="closeModal('timestamp')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="result-box" style="font-size: 1.5rem;">
+                    <span id="current-timestamp"></span>
+                </div>
+                <div class="form-group">
+                    <label>Timestamp to Date</label>
+                    <input type="text" class="form-input" id="ts-input" placeholder="1703980800">
+                </div>
+                <div class="result-box" id="ts-result">Enter timestamp above</div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="convertTimestamp()">Convert →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: URL Encoder -->
+    <div class="modal-overlay" id="modal-url">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>🔗 URL Encoder/Decoder</h3>
+                <button class="modal-close" onclick="closeModal('url')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Enter URL or text</label>
+                    <textarea class="form-input" id="url-input" placeholder="https://example.com?q=hello world"></textarea>
+                </div>
+                <div class="result-box" id="url-result">Result will appear here</div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="urlConvert('encode')">🔒 Encode</button>
+                    <button class="btn btn-secondary" onclick="urlConvert('decode')">🔓 Decode</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Color Converter -->
+    <div class="modal-overlay" id="modal-color">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>🎨 Color Converter</h3>
+                <button class="modal-close" onclick="closeModal('color')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Pick a color</label>
+                    <input type="color" id="color-picker" value="#00f0ff" style="width: 100%; height: 60px; border: none; border-radius: 12px; cursor: pointer;" onchange="convertColor()">
+                </div>
+                <div class="result-box" id="color-result" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                    <div><strong>HEX:</strong> <span id="color-hex">#00f0ff</span></div>
+                    <div><strong>RGB:</strong> <span id="color-rgb">rgb(0, 240, 255)</span></div>
+                    <div><strong>HSL:</strong> <span id="color-hsl">hsl(184, 100%, 50%)</span></div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="copyResult('color-hex')">📋 Copy HEX</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Stopwatch -->
+    <div class="modal-overlay" id="modal-stopwatch">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>⏱️ Stopwatch</h3>
+                <button class="modal-close" onclick="closeModal('stopwatch')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="result-box" style="font-size: 3rem; font-family: 'JetBrains Mono', monospace;">
+                    <span id="stopwatch-display">00:00:00</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="sw-start" onclick="toggleStopwatch()">▶️ Start</button>
+                    <button class="btn btn-secondary" onclick="resetStopwatch()">🔄 Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // --- CORE NAVIGATION ---
-        function filterApps() {
-            let input = document.getElementById('searchInput');
-            let filter = input.value.toUpperCase();
-            let cards = document.getElementsByClassName('app-card');
+        // Modal Functions
+        function openModal(tool) {
+            document.getElementById(`modal-${tool}`).classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            if (tool === 'timestamp') {
+                updateCurrentTimestamp();
+            }
+        }
 
-            for (let i = 0; i < cards.length; i++) {
-                let dataName = cards[i].getAttribute('data-name');
-                if (dataName.toUpperCase().indexOf(filter) > -1) {
-                    cards[i].style.display = "flex";
-                } else {
-                    cards[i].style.display = "none";
+        function closeModal(tool) {
+            document.getElementById(`modal-${tool}`).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
                 }
-            }
-        }
-
-        function openModal(toolId) {
-            const modal = document.getElementById('modalOverlay');
-            const body = document.getElementById('modalBody');
-            const template = document.getElementById(toolId + '-tpl');
-            
-            if(template) {
-                body.innerHTML = template.innerHTML;
-                modal.classList.remove('hidden');
-                
-                // Init specific tools
-                if(toolId === 'password-tool') generatePassword();
-                if(toolId === 'unix-tool') initUnixTool();
-            }
-        }
-
-        function closeModal(e) {
-            if(e && e.target !== e.currentTarget) return;
-            document.getElementById('modalOverlay').classList.add('hidden');
-            stopTimer(); // Ensure timer stops if modal closes
-        }
-
-        function copyToClipboard(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                // Create temporary notification
-                const notification = document.createElement('div');
-                notification.textContent = '✓ Copied to clipboard!';
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: var(--success);
-                    color: white;
-                    padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    font-weight: 600;
-                    z-index: 10000;
-                    animation: slideIn 0.3s ease;
-                `;
-                document.body.appendChild(notification);
-                setTimeout(() => notification.remove(), 2000);
             });
+        });
+
+        // Password Generator
+        function updatePwdLength() {
+            document.getElementById('pwd-length-value').textContent = document.getElementById('pwd-length').value;
         }
 
-        // --- PASSWORD TOOL ---
         function generatePassword() {
-            const length = document.getElementById('pass-len').value;
-            const upper = document.getElementById('inc-upper').checked;
-            const lower = document.getElementById('inc-lower').checked;
-            const num = document.getElementById('inc-num').checked;
-            const sym = document.getElementById('inc-sym').checked;
-            
-            const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const lowerChars = "abcdefghijklmnopqrstuvwxyz";
-            const numChars = "0123456789";
-            const symChars = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
-            
-            let allChars = "";
-            if(upper) allChars += upperChars;
-            if(lower) allChars += lowerChars;
-            if(num) allChars += numChars;
-            if(sym) allChars += symChars;
-            
-            if(allChars === "") {
-                document.getElementById('pass-result').innerText = "⚠️ Select at least one option!";
+            const length = parseInt(document.getElementById('pwd-length').value);
+            const upper = document.getElementById('pwd-upper').checked;
+            const lower = document.getElementById('pwd-lower').checked;
+            const numbers = document.getElementById('pwd-numbers').checked;
+            const symbols = document.getElementById('pwd-symbols').checked;
+
+            let chars = '';
+            if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
+            if (numbers) chars += '0123456789';
+            if (symbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (!chars) {
+                document.getElementById('pwd-result').textContent = 'Select at least one option';
                 return;
             }
 
-            let password = "";
-            for(let i=0; i<length; i++) {
-                password += allChars.charAt(Math.floor(Math.random() * allChars.length));
+            let password = '';
+            const array = new Uint32Array(length);
+            crypto.getRandomValues(array);
+            for (let i = 0; i < length; i++) {
+                password += chars[array[i] % chars.length];
             }
-            document.getElementById('pass-result').innerText = password;
+
+            document.getElementById('pwd-result').textContent = password;
         }
 
-        // --- JSON TOOL ---
-        function processJSON(beautify) {
-            const input = document.getElementById('json-input').value;
-            const output = document.getElementById('json-output');
+        // JSON Formatter
+        function formatJSON(beautify) {
+            const input = document.getElementById('json-input');
             try {
-                const obj = JSON.parse(input);
-                output.value = beautify ? JSON.stringify(obj, null, 4) : JSON.stringify(obj);
-                output.style.borderColor = 'var(--success)';
-                setTimeout(() => output.style.borderColor = 'var(--glass-border)', 1000);
+                const parsed = JSON.parse(input.value);
+                input.value = beautify ? JSON.stringify(parsed, null, 2) : JSON.stringify(parsed);
             } catch (e) {
-                output.value = "❌ Invalid JSON:\n" + e.message;
-                output.style.borderColor = 'var(--danger)';
+                alert('Invalid JSON: ' + e.message);
             }
         }
 
-        // --- IP TOOL ---
-        function fetchIP() {
-            const resultDiv = document.getElementById('ip-result');
-            resultDiv.innerHTML = '<div class="spinner"></div>';
-            
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    resultDiv.innerHTML = `
-                        <div style="background: var(--glass-bg); padding: var(--space-md); border-radius: 10px; border: 2px solid var(--glass-border);">
-                            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--accent);">IP Address:</strong> ${data.ip}</p>
-                            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--accent);">Location:</strong> ${data.city}, ${data.region}, ${data.country_name}</p>
-                            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--accent);">ISP:</strong> ${data.org}</p>
-                            <p><strong style="color: var(--accent);">Timezone:</strong> ${data.timezone}</p>
-                        </div>
-                    `;
-                })
-                .catch(err => {
-                    resultDiv.innerHTML = '<p style="color:var(--danger); background: var(--glass-bg); padding: var(--space-md); border-radius: 10px; border: 2px solid var(--danger);">❌ Failed to fetch IP. Adblocker might be interfering. Try disabling extensions.</p>';
-                });
-        }
-
-        // --- BASE64 TOOL ---
-        function base64Process(action) {
-            const input = document.getElementById('b64-input').value;
-            const result = document.getElementById('b64-result');
+        // IP Info
+        async function fetchIP() {
+            const result = document.getElementById('ip-result');
+            result.innerHTML = 'Fetching...';
             try {
-                result.innerText = action === 'encode' ? btoa(input) : atob(input);
-            } catch(e) {
-                result.innerText = "❌ Error: Invalid input for decoding.";
-            }
-        }
-
-        // --- QR TOOL ---
-        function generateQR() {
-            const text = document.getElementById('qr-text').value;
-            const container = document.getElementById('qr-output');
-            container.innerHTML = "";
-            if(text.trim() === "") {
-                container.innerHTML = '<p style="color: var(--warning);">⚠️ Please enter text or URL</p>';
-                return;
-            }
-            new QRCode(container, {
-                text: text, width: 256, height: 256,
-                colorDark : "#000000", colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-        }
-
-        // --- DNS TOOL ---
-        function lookupDNS() {
-            const domain = document.getElementById('dns-domain').value;
-            const type = document.getElementById('dns-type').value;
-            const resultDiv = document.getElementById('dns-result');
-            if(!domain) {
-                resultDiv.innerHTML = "⚠️ Please enter a domain name";
-                return;
-            }
-            resultDiv.innerHTML = "🔍 Querying Google DNS...";
-            
-            fetch(`https://dns.google/resolve?name=${domain}&type=${type}`)
-                .then(res => res.json())
-                .then(data => {
-                    if(data.Answer) {
-                        let output = "✅ DNS Records Found:\n\n";
-                        data.Answer.forEach(record => {
-                            output += `${record.name}\n➜ ${record.data}\n\n`;
-                        });
-                        resultDiv.innerText = output;
-                        resultDiv.style.borderColor = 'var(--success)';
-                    } else {
-                        resultDiv.innerText = "❌ No records found or invalid domain.";
-                        resultDiv.style.borderColor = 'var(--danger)';
-                    }
-                })
-                .catch(err => {
-                    resultDiv.innerText = "❌ Error fetching DNS data.";
-                    resultDiv.style.borderColor = 'var(--danger)';
-                });
-        }
-
-        // --- UNIX TIMESTAMP TOOL ---
-        function initUnixTool() {
-            setInterval(() => {
-                const el = document.getElementById('unix-current');
-                if(el) el.innerText = Math.floor(Date.now() / 1000);
-            }, 1000);
-        }
-
-        function convertUnix(direction) {
-            if(direction === 'toHuman') {
-                const ts = document.getElementById('unix-input').value;
-                if(!ts) return;
-                const date = new Date(ts * 1000);
-                document.getElementById('unix-human-result').innerHTML = `
-                    <div>
-                        <strong style="color: var(--accent);">UTC:</strong> ${date.toUTCString()}<br>
-                        <strong style="color: var(--accent);">Local:</strong> ${date.toLocaleString()}
-                    </div>
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                result.innerHTML = `
+                    <div><strong>IP:</strong> ${data.ip}</div>
+                    <div><strong>Location:</strong> ${data.city}, ${data.region}, ${data.country_name}</div>
+                    <div><strong>ISP:</strong> ${data.org}</div>
                 `;
-            } else {
-                const dateVal = document.getElementById('unix-date-input').value;
-                if(!dateVal) return;
-                const ts = Math.floor(new Date(dateVal).getTime() / 1000);
-                document.getElementById('unix-epoch-result').innerHTML = `<strong style="color: var(--accent); font-size: 1.2rem;">${ts}</strong>`;
+            } catch (e) {
+                result.textContent = 'Error fetching IP info';
             }
         }
 
-        // --- URL ENCODE/DECODE ---
-        function processURL(action) {
+        // Base64
+        function base64Convert(mode) {
+            const input = document.getElementById('base64-input').value;
+            const result = document.getElementById('base64-result');
+            try {
+                result.textContent = mode === 'encode' ? btoa(input) : atob(input);
+            } catch (e) {
+                result.textContent = 'Error: Invalid input';
+            }
+        }
+
+        // QR Code
+        function generateQR() {
+            const input = document.getElementById('qr-input').value;
+            const img = document.getElementById('qr-image');
+            const placeholder = document.getElementById('qr-placeholder');
+            
+            if (!input) {
+                alert('Please enter text or URL');
+                return;
+            }
+
+            const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(input)}`;
+            img.src = url;
+            img.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+
+        // DNS Lookup
+        async function dnsLookup() {
+            const domain = document.getElementById('dns-domain').value;
+            const type = document.querySelector('input[name="dns-type"]:checked').value;
+            const result = document.getElementById('dns-result');
+
+            if (!domain) {
+                alert('Please enter a domain');
+                return;
+            }
+
+            result.textContent = 'Looking up...';
+            try {
+                const res = await fetch(`https://dns.google/resolve?name=${domain}&type=${type}`);
+                const data = await res.json();
+                if (data.Answer) {
+                    result.innerHTML = data.Answer.map(a => `<div>${a.data}</div>`).join('');
+                } else {
+                    result.textContent = 'No records found';
+                }
+            } catch (e) {
+                result.textContent = 'Lookup failed';
+            }
+        }
+
+        // Timestamp
+        function updateCurrentTimestamp() {
+            document.getElementById('current-timestamp').textContent = Math.floor(Date.now() / 1000);
+        }
+
+        function convertTimestamp() {
+            const input = document.getElementById('ts-input').value;
+            const result = document.getElementById('ts-result');
+            const ts = parseInt(input);
+            
+            if (isNaN(ts)) {
+                result.textContent = 'Invalid timestamp';
+                return;
+            }
+
+            const date = new Date(ts * 1000);
+            result.textContent = date.toLocaleString();
+        }
+
+        // URL Encoder
+        function urlConvert(mode) {
             const input = document.getElementById('url-input').value;
             const result = document.getElementById('url-result');
             try {
-                result.innerText = action === 'encode' ? encodeURIComponent(input) : decodeURIComponent(input);
+                result.textContent = mode === 'encode' ? encodeURIComponent(input) : decodeURIComponent(input);
             } catch (e) {
-                result.innerText = "❌ Error decoding URL.";
+                result.textContent = 'Error: Invalid input';
             }
         }
 
-        // --- COLOR CONVERTER ---
-        function updateColorFromPicker(hex) {
-            document.getElementById('color-preview-box').style.backgroundColor = hex;
-            document.getElementById('color-hex').value = hex;
-            
-            // Convert Hex to RGB
-            let r = parseInt(hex.slice(1, 3), 16);
-            let g = parseInt(hex.slice(3, 5), 16);
-            let b = parseInt(hex.slice(5, 7), 16);
-            document.getElementById('color-rgb').value = `rgb(${r}, ${g}, ${b})`;
-        }
+        // Color Converter
+        function convertColor() {
+            const hex = document.getElementById('color-picker').value;
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
 
-        // --- STOPWATCH ---
-        let timerInterval;
-        let timerSeconds = 0;
-        let timerRunning = false;
+            const max = Math.max(r, g, b) / 255;
+            const min = Math.min(r, g, b) / 255;
+            const l = (max + min) / 2;
+            let h = 0, s = 0;
 
-        function startTimer() {
-            if(timerRunning) return;
-            timerRunning = true;
-            timerInterval = setInterval(() => {
-                timerSeconds++;
-                updateTimerDisplay();
-            }, 1000);
-        }
-
-        function stopTimer() {
-            timerRunning = false;
-            clearInterval(timerInterval);
-        }
-
-        function resetTimer() {
-            stopTimer();
-            timerSeconds = 0;
-            updateTimerDisplay();
-        }
-
-        function updateTimerDisplay() {
-            const display = document.getElementById('timer-display');
-            if(!display) return;
-            
-            const hrs = Math.floor(timerSeconds / 3600);
-            const mins = Math.floor((timerSeconds % 3600) / 60);
-            const secs = timerSeconds % 60;
-            
-            display.innerText = 
-                (hrs < 10 ? "0" + hrs : hrs) + ":" +
-                (mins < 10 ? "0" + mins : mins) + ":" +
-                (secs < 10 ? "0" + secs : secs);
-        }
-
-        // Add slide in animation for notification
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
+            if (max !== min) {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (Math.max(r, g, b)) {
+                    case r: h = ((g - b) / d / 255 + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d / 255 + 2) / 6; break;
+                    case b: h = ((r - g) / d / 255 + 4) / 6; break;
                 }
             }
-        `;
-        document.head.appendChild(style);
+
+            document.getElementById('color-hex').textContent = hex;
+            document.getElementById('color-rgb').textContent = `rgb(${r}, ${g}, ${b})`;
+            document.getElementById('color-hsl').textContent = `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+        }
+
+        // Stopwatch
+        let swInterval = null;
+        let swTime = 0;
+
+        function toggleStopwatch() {
+            const btn = document.getElementById('sw-start');
+            if (swInterval) {
+                clearInterval(swInterval);
+                swInterval = null;
+                btn.innerHTML = '▶️ Start';
+            } else {
+                swInterval = setInterval(() => {
+                    swTime++;
+                    updateStopwatchDisplay();
+                }, 10);
+                btn.innerHTML = '⏸️ Pause';
+            }
+        }
+
+        function resetStopwatch() {
+            clearInterval(swInterval);
+            swInterval = null;
+            swTime = 0;
+            updateStopwatchDisplay();
+            document.getElementById('sw-start').innerHTML = '▶️ Start';
+        }
+
+        function updateStopwatchDisplay() {
+            const cs = swTime % 100;
+            const s = Math.floor(swTime / 100) % 60;
+            const m = Math.floor(swTime / 6000);
+            document.getElementById('stopwatch-display').textContent = 
+                `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(cs).padStart(2, '0')}`;
+        }
+
+        // Copy to clipboard
+        function copyResult(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+
+        // Filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const filter = tab.dataset.filter;
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Initialize
+        convertColor();
     </script>
 </body>
 </html>
